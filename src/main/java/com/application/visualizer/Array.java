@@ -4,14 +4,11 @@ import com.application.visualizer.algorithms.MaximumSelectionSort;
 import com.application.visualizer.fixed.Change;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.internal.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
-
 
 @CssImport("./styles/array.css")
 public class Array extends Div {
@@ -20,7 +17,9 @@ public class Array extends Div {
     private final List<Movement> movements;
     private final List<Integer> list;
 
-    public Array(List<Integer> list) {
+    public final DisplayCurrentStep displayCurrentStep;
+
+    public Array(List<Integer> list, DisplayCurrentStep displayCurrentStep) {
         this.list = new ArrayList<>(list);
         this.addClassName("array");
 
@@ -28,6 +27,7 @@ public class Array extends Div {
             this.add(new Number(value));
         }
         this.movements = new MaximumSelectionSort(list).getMovements();
+        this.displayCurrentStep = displayCurrentStep;
     }
 
     public Number getNumberAtIndex(int index) {
@@ -65,7 +65,8 @@ public class Array extends Div {
         if (counter == this.movements.size()) return;
 
         Movement currentMovement = movements.get(counter);
-        Notification.show(currentMovement.getCurrentStep(), 2000, Notification.Position.TOP_END);
+        this.displayCurrentStep.set(currentMovement.getCurrentStep());
+        //Notification.show(currentMovement.getCurrentStep(), 2000, Notification.Position.TOP_END);
 
         this.counter++;
 
@@ -89,6 +90,7 @@ public class Array extends Div {
 
     public void setStart() {
         this.counter = 0;
+
         play();
         for (int i = 0; i < this.list.size(); i++) {
             Number currentNumber = this.getNumberAtIndex(i);
@@ -106,7 +108,7 @@ public class Array extends Div {
 
         for (int i = 0; i < this.list.size(); i++) {
             Number currentNumber = this.getNumberAtIndex(i);
-            currentNumber.setValue(this.list.get(i));
+            currentNumber.setValue(sortedList.get(i));
             currentNumber.sortedStyle();
         }
     }
