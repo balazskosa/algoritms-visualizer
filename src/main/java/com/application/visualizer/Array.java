@@ -7,6 +7,8 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.internal.Pair;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -16,8 +18,10 @@ public class Array extends Div {
 
     private int counter = 0;
     private final List<Movement> movements;
+    private final List<Integer> list;
 
     public Array(List<Integer> list) {
+        this.list = new ArrayList<>(list);
         this.addClassName("array");
 
         for (Integer value : list) {
@@ -80,6 +84,30 @@ public class Array extends Div {
             case SWAP -> swap.accept(indexes);
             case SORTED -> sorted.accept(indexes);
             default -> throw new IllegalArgumentException("Unknown change value");
+        }
+    }
+
+    public void setStart() {
+        this.counter = 0;
+        play();
+        for (int i = 0; i < this.list.size(); i++) {
+            Number currentNumber = this.getNumberAtIndex(i);
+            currentNumber.setValue(this.list.get(i));
+            currentNumber.resetStyle();
+        }
+    }
+
+    public void setEnd() {
+        this.counter = this.movements.size() - 1;
+
+        play();
+
+        List<Integer> sortedList = this.list.stream().sorted().toList();
+
+        for (int i = 0; i < this.list.size(); i++) {
+            Number currentNumber = this.getNumberAtIndex(i);
+            currentNumber.setValue(this.list.get(i));
+            currentNumber.sortedStyle();
         }
     }
 
