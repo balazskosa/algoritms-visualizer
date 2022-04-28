@@ -1,16 +1,15 @@
 package com.application.visualizer;
 
-import com.vaadin.flow.component.html.Div;
+import com.application.visualizer.fixed.Change;
 import com.vaadin.flow.internal.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class Movement {
-    String currentStep;
-    List<Change> changes;
-    List<Pair<Integer, Integer>> index;
+    private final String currentStep;
+    private List<Change> changes;
+    private List<Pair<Integer, Integer>> index;
 
     public Movement(String currentStep) {
         this.currentStep = currentStep;
@@ -27,7 +26,6 @@ public class Movement {
     public String getCurrentStep() {
         return currentStep;
     }
-
 
     public void add(Change change, Pair<Integer, Integer> indexes) {
         this.changes.add(change);

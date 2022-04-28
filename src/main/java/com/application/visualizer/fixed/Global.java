@@ -1,4 +1,4 @@
-package com.application.visualizer;
+package com.application.visualizer.fixed;
 
 public class Global {
     public static final String BASE_BACKGROUND_COLOR = "tomato";

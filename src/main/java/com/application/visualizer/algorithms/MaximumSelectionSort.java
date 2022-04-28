@@ -1,7 +1,6 @@
-package com.application.algorithms;
+package com.application.visualizer.algorithms;
 
-import com.application.visualizer.Array;
-import com.application.visualizer.Change;
+import com.application.visualizer.fixed.Change;
 import com.application.visualizer.Movement;
 import com.vaadin.flow.internal.Pair;
 
@@ -104,7 +103,7 @@ public class MaximumSelectionSort {
         this.movements.add(new Movement("Starting maximum selection sort"));
         this.movements.add(new Movement("For each pass, we will move left to right" +
                 " looking for the next largest value." +
-                " Once that is found, it will be swapped into its final position "));
+                " Once that is found, it will be swapped into its final position"));
     }
 
 }
