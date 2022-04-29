@@ -4,20 +4,17 @@ import com.application.visualizer.Movement;
 import com.application.visualizer.fixed.Change;
 import com.vaadin.flow.internal.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class QuickSort {
-
-    public List<Integer> numbers;
-    private final List<Movement> movements = new ArrayList<>();
+public class QuickSort extends Sort {
 
     public QuickSort(List<Integer> list) {
-        this.numbers = new ArrayList<>(list);
+        super(list);
+    }
 
-        initializingFirstMovements();
+    @Override
+    protected void sort() {
         quickSort(0, this.numbers.size() - 1);
-        this.movements.add(new Movement("Done sorting"));
     }
 
     public void quickSort(int begin, int end) {
@@ -30,17 +27,17 @@ public class QuickSort {
 
             if (!(partitionIndex <= begin)) {
                 //animation
-                this.movements.add(new Movement("Begin quick sorting the left part" + rangeLeft));
+                this.getMovements().add(new Movement("Begin quick sorting the left part" + rangeLeft));
                 quickSort(begin, partitionIndex - 1);
             }
 
             if (!(partitionIndex >= end)) {
                 //animation
-                this.movements.add(new Movement("Begin quick sorting the right part" + rangeRight));
+                this.getMovements().add(new Movement("Begin quick sorting the right part" + rangeRight));
                 quickSort(partitionIndex + 1, end);
             }
 
-        } else if(begin == end) {
+        } else if (begin == end) {
             this.movements.add(new Movement("This is already sorted",
                     Change.SORTED, new Pair<>(begin, null)));
         }
@@ -115,11 +112,9 @@ public class QuickSort {
         return i + 1;
     }
 
-    private void initializingFirstMovements() {
+    @Override
+    protected void initializingFirstMovements() {
         this.movements.add(new Movement("Starting quicksort"));
     }
 
-    public List<Movement> getMovements() {
-        return movements;
-    }
 }

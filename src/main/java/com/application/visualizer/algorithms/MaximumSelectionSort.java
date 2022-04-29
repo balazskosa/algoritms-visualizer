@@ -1,25 +1,19 @@
 package com.application.visualizer.algorithms;
 
-import com.application.visualizer.fixed.Change;
 import com.application.visualizer.Movement;
+import com.application.visualizer.fixed.Change;
 import com.vaadin.flow.internal.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class MaximumSelectionSort {
-    public List<Integer> numbers;
-    private final List<Movement> movements = new ArrayList<>();
-
-    public MaximumSelectionSort(List<Integer> numbers) {
-        this.numbers = new ArrayList<>(numbers);
-
-        initializingFirstMovements();
-        selectionSort();
+public class MaximumSelectionSort extends Sort {
+    public MaximumSelectionSort(List<Integer> list) {
+        super(list);
     }
 
-    private void selectionSort() {
+    @Override
+    protected void sort() {
         String step;
         Movement movement;
         int j = numbers.size();
@@ -89,17 +83,10 @@ public class MaximumSelectionSort {
             this.movements.add(movement);
 
         }
-        step = "Done sorting";
-        movement = new Movement(step, Change.SORTED, new Pair<>(0, null));
-        this.movements.add(movement);
     }
 
-
-    public List<Movement> getMovements() {
-        return movements;
-    }
-
-    private void initializingFirstMovements() {
+    @Override
+    protected void initializingFirstMovements() {
         this.movements.add(new Movement("Starting maximum selection sort"));
         this.movements.add(new Movement("For each pass, we will move left to right" +
                 " looking for the next largest value." +
