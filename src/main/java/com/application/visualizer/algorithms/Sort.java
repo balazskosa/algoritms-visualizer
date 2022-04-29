@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Sort {
-
     protected final List<Integer> numbers;
     protected final List<Movement> movements = new ArrayList<>();
 
@@ -22,6 +21,10 @@ public abstract class Sort {
 
     public List<Movement> getMovements() {
         return movements;
+    }
+
+    public List<Integer> getNumbers() {
+        return numbers;
     }
 
 }
