@@ -1,0 +1,19 @@
+.control {
+    margin: auto;
+    box-sizing: border-box;
+
+}
+
+.control > label {
+    background: rgba(1,1,1,0.25);
+    width: 75px;
+    border: 3px solid rgba(1,1,1,0.5);
+    border-radius: 5px;
+    display:inline-block;
+    text-align: center;
+}
+
+.control > vaadin-button {
+    background: rgba(1,1,1,0.5);
+    margin: 5px;
+}

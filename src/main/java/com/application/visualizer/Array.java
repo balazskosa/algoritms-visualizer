@@ -17,7 +17,7 @@ public class Array extends Div {
     private final List<Movement> movements;
     private final List<Integer> list;
 
-    public final DisplayCurrentStep displayCurrentStep;
+    private final DisplayCurrentStep displayCurrentStep;
 
     public Array(List<Integer> list, DisplayCurrentStep displayCurrentStep) {
         this.list = new ArrayList<>(list);
@@ -57,7 +57,7 @@ public class Array extends Div {
             getNumberAtIndex(index.getFirst()).sortedStyle();
 
 
-    public String display() {
+    public String displayCounter() {
         return this.counter + " / " + this.movements.size();
     }
 
@@ -112,6 +112,11 @@ public class Array extends Div {
             currentNumber.sortedStyle();
         }
     }
+
+    public DisplayCurrentStep getDisplayCurrentStep() {
+        return displayCurrentStep;
+    }
+
 
 //    public void playBackward() {
 //
