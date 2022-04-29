@@ -1,6 +1,5 @@
 package com.application.visualizer;
 
-import com.application.visualizer.algorithms.MaximumSelectionSort;
 import com.application.visualizer.fixed.Change;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
@@ -19,14 +18,14 @@ public class Array extends Div {
 
     private final DisplayCurrentStep displayCurrentStep;
 
-    public Array(List<Integer> list, DisplayCurrentStep displayCurrentStep) {
+    public Array(List<Integer> list, DisplayCurrentStep displayCurrentStep, List<Movement> movements) {
         this.list = new ArrayList<>(list);
         this.addClassName("array");
 
         for (Integer value : list) {
             this.add(new Number(value));
         }
-        this.movements = new MaximumSelectionSort(list).getMovements();
+        this.movements = movements;
         this.displayCurrentStep = displayCurrentStep;
     }
 
@@ -44,6 +43,13 @@ public class Array extends Div {
         firstNumber.animation();
         secondNumber.animation();
     };
+
+    public Consumer<Pair<Integer, Integer>> swapToSecond = (indexes) -> {
+        int firstValue = getNumberAtIndex(indexes.getFirst()).getValue();
+        Number secondNumber = getNumberAtIndex(indexes.getSecond());
+        secondNumber.setValue(firstValue);
+        secondNumber.animation();
+    };
     public Consumer<Pair<Integer, Integer>> reset = (index) ->
             getNumberAtIndex(index.getFirst()).resetStyle();
 
@@ -55,6 +61,9 @@ public class Array extends Div {
 
     public Consumer<Pair<Integer, Integer>> sorted = (index) ->
             getNumberAtIndex(index.getFirst()).sortedStyle();
+
+    public Consumer<Pair<Integer, Integer>> setValue = (index) ->
+            getNumberAtIndex(index.getFirst()).setValue(index.getSecond());
 
 
     public String displayCounter() {
@@ -84,6 +93,8 @@ public class Array extends Div {
             case SELECTED -> selected.accept(indexes);
             case SWAP -> swap.accept(indexes);
             case SORTED -> sorted.accept(indexes);
+            case SWAP_TO_SECOND -> swapToSecond.accept(indexes);
+            case SET_VALUE -> setValue.accept(indexes);
             default -> throw new IllegalArgumentException("Unknown change value");
         }
     }
