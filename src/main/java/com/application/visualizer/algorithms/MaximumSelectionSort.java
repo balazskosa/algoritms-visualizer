@@ -13,7 +13,7 @@ public class MaximumSelectionSort {
     private final List<Movement> movements = new ArrayList<>();
 
     public MaximumSelectionSort(List<Integer> numbers) {
-        this.numbers = numbers;
+        this.numbers = new ArrayList<>(numbers);
 
         initializingFirstMovements();
         selectionSort();

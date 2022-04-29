@@ -58,6 +58,11 @@ public class Number extends Div {
         setBorder(Global.SELECTED_BORDER);
     }
 
+    public void thirdSelectedStyle() {
+        setBackgroundColor(Global.THIRD_SELECTED_BACKGROUND_COLOR);
+        setBorder(Global.SELECTED_BORDER);
+    }
+
     public void sortedStyle() {
         setBackgroundColor(Global.SORTED_BACKGROUND_COLOR);
         setBorder(Global.SORTED_BORDER);

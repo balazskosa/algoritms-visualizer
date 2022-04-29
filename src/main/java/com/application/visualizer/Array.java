@@ -15,9 +15,7 @@ public class Array extends Div {
     private int counter = 0;
     private final List<Movement> movements;
     private final List<Integer> list;
-
     private final DisplayCurrentStep displayCurrentStep;
-
     public Array(List<Integer> list, DisplayCurrentStep displayCurrentStep, List<Movement> movements) {
         this.list = new ArrayList<>(list);
         this.addClassName("array");
@@ -59,6 +57,9 @@ public class Array extends Div {
     public Consumer<Pair<Integer, Integer>> secondSelected = (index) ->
             getNumberAtIndex(index.getFirst()).secondSelectedStyle();
 
+    public Consumer<Pair<Integer, Integer>> thirdSelected = (index) ->
+            getNumberAtIndex(index.getFirst()).thirdSelectedStyle();
+
     public Consumer<Pair<Integer, Integer>> sorted = (index) ->
             getNumberAtIndex(index.getFirst()).sortedStyle();
 
@@ -89,6 +90,7 @@ public class Array extends Div {
     private void currentAnimation(Change change, Pair<Integer, Integer> indexes) {
         switch (change) {
             case RESET -> reset.accept(indexes);
+            case THIRD_SELECTED -> thirdSelected.accept(indexes);
             case SECOND_SELECTED -> secondSelected.accept(indexes);
             case SELECTED -> selected.accept(indexes);
             case SWAP -> swap.accept(indexes);

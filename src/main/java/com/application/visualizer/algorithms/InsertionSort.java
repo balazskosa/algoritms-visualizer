@@ -47,7 +47,7 @@ public class InsertionSort {
             this.numbers.set(j + 1, current);
 
             //animation
-            step = "Swap";
+            step = "Final swap";
             movement = new Movement(step, Change.SET_VALUE, new Pair<>(j + 1 , current));
             movement.add(Change.SORTED, new Pair<>(j + 1, null));
             this.movements.add(movement);
