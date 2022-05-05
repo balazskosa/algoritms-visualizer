@@ -1,6 +1,7 @@
-package com.application.visualizer;
+package com.application.visualizer.ui;
 
-import com.application.visualizer.fixed.Change;
+import com.application.visualizer.model.Movement;
+import com.application.visualizer.model.fixed.Change;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.internal.Pair;

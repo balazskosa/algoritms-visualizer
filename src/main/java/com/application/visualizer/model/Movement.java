@@ -1,6 +1,6 @@
-package com.application.visualizer;
+package com.application.visualizer.model;
 
-import com.application.visualizer.fixed.Change;
+import com.application.visualizer.model.fixed.Change;
 import com.vaadin.flow.internal.Pair;
 
 import java.util.ArrayList;

@@ -1,0 +1,19 @@
+.settings-panel {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    width: 250px;
+    border: 2px solid rgba(1,1,1,0.25);
+    box-shadow: 10px 10px 10px rgba(81,162,219,0.25);
+}
+
+.settings-panel > div {
+
+    box-shadow: 10px 10px 10px rgba(81,162,219,0.45);
+}
+
+.settings-panel > div > vaadin-button {
+    width: 250px;
+    justify-content: center;
+    text-align: center;
+}

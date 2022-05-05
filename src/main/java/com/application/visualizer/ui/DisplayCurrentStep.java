@@ -1,4 +1,4 @@
-package com.application.visualizer;
+package com.application.visualizer.ui;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;

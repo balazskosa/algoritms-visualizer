@@ -1,7 +1,7 @@
-package com.application.visualizer.algorithms;
+package com.application.visualizer.model.algorithms;
 
-import com.application.visualizer.Movement;
-import com.application.visualizer.fixed.Change;
+import com.application.visualizer.model.Movement;
+import com.application.visualizer.model.fixed.Change;
 import com.vaadin.flow.internal.Pair;
 
 import java.util.List;
