@@ -1,16 +1,15 @@
 .number {
   position: relative;
-  padding: 5px;
-  width: 30px;
-  height: 30px;
-  margin: 5px;
+  padding: 0.35em;
+  width: 2em;
+  height: 2em;
+  margin: 0.35em;
   border-radius: 50%;
-  border-color: black;
   border: 2px solid black;
   color: black;
   font-weight: bold;
-  line-height: 30px;
-  font-size: 15px;
+  line-height: 2em;
+  font-size: 1em;
   text-align: center;
   transition: all 0.5s;
   -webkit-transition: all 1s;
@@ -25,7 +24,7 @@
     100% { transform: scale(1);left:0px;}
 
  */
-     0%   {transform: scale(0);top:0px;}
+     0%   {transform: scale(0);top:0;}
      100%  { transform: scale(1);top:0;}
 }
 
@@ -36,6 +35,6 @@
     67%  { transform: scale(1.33);left:+20px;}
     100% { transform: scale(1);left:0px;}
  */
-    0%   {transform: scale(0);top:0px;}
+    0%   {transform: scale(0);top:0;}
     100%  { transform: scale(1);top:0;}
 }

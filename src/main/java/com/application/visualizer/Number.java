@@ -1,6 +1,6 @@
-package com.application.visualizer.ui;
+package com.application.visualizer;
 
-import com.application.visualizer.model.fixed.Global;
+import com.application.visualizer.data.Global;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 

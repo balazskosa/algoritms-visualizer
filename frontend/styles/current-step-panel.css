@@ -1,6 +1,6 @@
-.display-current-step {
+.current-step-panel {
     width: 500px;
-
+    height: 18vh;
     margin: auto;
     border: 2px solid rgba(1,1,1,0.25);
     border-radius: 5px;
@@ -8,9 +8,15 @@
     padding: 10px;
 }
 
-.display-current-step > div {
+.current-step-panel > div {
     border-left-style: solid;
     border-left-color: rgba(24,178,217,0.25);
     border-left-width: 3px;
     padding: 5px;
+}
+
+.step {
+ font-weight: bold;
+ font-size: 1em;
+
 }

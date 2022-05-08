@@ -1,7 +1,7 @@
-package com.application.visualizer.model.algorithms;
+package com.application.visualizer.data.algorithms;
 
-import com.application.visualizer.model.Movement;
-import com.application.visualizer.model.fixed.Change;
+import com.application.visualizer.data.Movement;
+import com.application.visualizer.data.Change;
 import com.vaadin.flow.internal.Pair;
 
 import java.util.List;
@@ -92,8 +92,8 @@ public class QuickSort extends Sort {
         //animation
         step = "Move the pivot to its final location";
         movement = new Movement(step, Change.SWAP, new Pair<>(i + 1, end));
-        movement.add(Change.SORTED, new Pair<>(i + 1, null));
         movement.add(Change.RESET, new Pair<>(end, null));
+        movement.add(Change.SORTED, new Pair<>(i + 1, null));
         for (int counter = i; counter >= begin; counter--) {
             movement.add(Change.RESET, new Pair<>(counter, null));
         }

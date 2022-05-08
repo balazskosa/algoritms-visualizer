@@ -1,6 +1,6 @@
-package com.application.visualizer.model.algorithms;
+package com.application.visualizer.data.algorithms;
 
-import com.application.visualizer.model.Movement;
+import com.application.visualizer.data.Movement;
 
 import java.util.ArrayList;
 import java.util.List;
