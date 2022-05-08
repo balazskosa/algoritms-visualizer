@@ -67,7 +67,12 @@ public class Array extends Div {
 
     public void setItems(List<Integer> list) {
         this.removeAll();
-        list.forEach((value) -> this.add(new Number(value)));
+        list.forEach((value) -> {
+            Number number = new Number(value);
+            this.add(number);
+            number.animation();
+        });
+
     }
 
     public void animation(Change change, Pair<Integer, Integer> indexes) {
