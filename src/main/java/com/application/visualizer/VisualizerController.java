@@ -12,13 +12,20 @@ public class VisualizerController {
     private final CurrentStepPanel currentStepPanel;
     private final ControlPanel controlPanel;
 
+    private final AlgorithmSettingsPanel algorithmSettingsPanel;
+
+    private final SizeSettingsPanel sizeSettingsPanel;
+
     public VisualizerController(Array array, CurrentStepPanel currentStepPanel,
-                                ControlPanel controlPanel) {
+                                ControlPanel controlPanel, AlgorithmSettingsPanel algorithmSettingsPanel,
+                                SizeSettingsPanel sizeSettingsPanel) {
 
         this.movements = new MaximumSelectionSort(array.getList()).getMovements();
         this.array = array;
         this.currentStepPanel = currentStepPanel;
         this.controlPanel = controlPanel;
+        this.algorithmSettingsPanel = algorithmSettingsPanel;
+        this.sizeSettingsPanel = sizeSettingsPanel;
 
         setControlPanelClickListener();
         play();
