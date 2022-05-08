@@ -5,7 +5,7 @@ import com.application.visualizer.data.Movement;
 import com.application.visualizer.data.algorithms.*;
 import com.vaadin.flow.component.notification.Notification;
 
-import java.util.List;
+import java.util.*;
 
 public class VisualizerController {
     private int counter = 0;
@@ -13,10 +13,9 @@ public class VisualizerController {
     protected final Array array;
     private final CurrentStepPanel currentStepPanel;
     private final ControlPanel controlPanel;
-
     private final AlgorithmSettingsPanel algorithmSettingsPanel;
-
     private final SizeSettingsPanel sizeSettingsPanel;
+
 
     public VisualizerController(Array array, CurrentStepPanel currentStepPanel,
                                 ControlPanel controlPanel, AlgorithmSettingsPanel algorithmSettingsPanel,
@@ -29,38 +28,69 @@ public class VisualizerController {
         this.algorithmSettingsPanel = algorithmSettingsPanel;
         this.sizeSettingsPanel = sizeSettingsPanel;
 
-        addControlPanelClickListener();
+        addAlgorithmChangeListener();
+        addSizeChangeListener();
+        addControlClickListener();
         play();
-        addAlgorithmSettingsPanelValueChangeListener();
-
     }
 
-    private void addControlPanelClickListener() {
+    private void addControlClickListener() {
         controlPanel.getNextButton().addClickListener((buttonClickEvent -> play()));
         controlPanel.getStartButton().addClickListener((buttonClickEvent -> start()));
         controlPanel.getEndButton().addClickListener((buttonClickEvent -> end()));
         controlPanel.getPreviousButton().setDisableOnClick(true);
     }
 
-    private void addAlgorithmSettingsPanelValueChangeListener() {
-        algorithmSettingsPanel.getGroup().addValueChangeListener((valueChangeEvent -> {
-            Sort sort;
-            switch (algorithmSettingsPanel.getSelectedValue()) {
-                case "Maximum Selection Sort" -> sort = new MaximumSelectionSort(array.getList());
-                case "Insertion sort" -> sort = new InsertionSort(array.getList());
-                case "Bubble sort" -> sort = new BubbleSort(array.getList());
-                case "Quicksort" -> sort = new QuickSort(array.getList());
-                //case "Tournament sort" ->;
-                //case "Mergesort" -> ;
-                //case "Heapsort" ->;
+    private void addAlgorithmChangeListener() {
+        algorithmSettingsPanel.getGroup().addValueChangeListener((valueChangeEvent) -> setMovements());
+    }
+
+    private void addSizeChangeListener() {
+
+        sizeSettingsPanel.getGroup().addValueChangeListener((valueChangeEvent) -> {
+            switch (sizeSettingsPanel.getSelectedValue()) {
+                case "Small" -> array.setItems(randomList(7));
+                case "Medium" -> array.setItems(randomList(12));
+                case "Large" -> array.setItems(randomList(15));
+                //case "Unique" ->;
                 default -> {
-                    algorithmSettingsPanel.getGroup().setValue(Global.algorithm);
-                    Notification.show("Not implemented algorithms");
-                    throw new IllegalArgumentException("Wrong value");
+                    algorithmSettingsPanel.getGroup().setValue(Global.size);
+                    Notification.show("Not implemented size");
+                    throw new IllegalArgumentException("Not implemented size");
                 }
             }
-            setMovements(sort.getMovements());
-        }));
+            setMovements();
+        });
+    }
+
+    private List<Integer> randomList(int n) {
+        Set<Integer> set = new LinkedHashSet<>();
+        Random rand = new Random();
+        while (set.size() != n) {
+            int randomValue = rand.nextInt(100);
+            set.add(randomValue);
+        }
+        return set.stream().toList();
+    }
+
+    public void setMovements() {
+        Sort sort;
+        switch (algorithmSettingsPanel.getSelectedValue()) {
+            case "Maximum Selection Sort" -> sort = new MaximumSelectionSort(array.getList());
+            case "Insertion sort" -> sort = new InsertionSort(array.getList());
+            case "Bubble sort" -> sort = new BubbleSort(array.getList());
+            case "Quicksort" -> sort = new QuickSort(array.getList());
+            //case "Tournament sort" ->;
+            //case "Mergesort" -> ;
+            //case "Heapsort" ->;
+            default -> {
+                algorithmSettingsPanel.getGroup().setValue(Global.algorithm);
+                Notification.show("Not implemented algorithm");
+                throw new IllegalArgumentException("Wrong value");
+            }
+        }
+        movements = sort.getMovements();
+        start();
     }
 
     public void play() {
@@ -88,11 +118,6 @@ public class VisualizerController {
         play();
         array.setSortedArray();
 
-    }
-
-    public void setMovements(List<Movement> movements) {
-        this.movements = movements;
-        start();
     }
 
 

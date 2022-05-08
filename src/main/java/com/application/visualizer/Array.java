@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 @CssImport("./styles/array.css")
 public class Array extends Div {
 
-    private final List<Integer> list;
+    private List<Integer> list;
 
     public Array(List<Integer> list) {
         this.list = new ArrayList<>(list);
@@ -66,11 +66,12 @@ public class Array extends Div {
     }
 
     public void setItems(List<Integer> list) {
+        this.list = list;
         this.removeAll();
         list.forEach((value) -> {
             Number number = new Number(value);
             this.add(number);
-            number.animation();
+            //number.animation();
         });
 
     }
