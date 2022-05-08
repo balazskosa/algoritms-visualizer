@@ -1,11 +1,16 @@
 package com.application.visualizer;
 
+import com.application.visualizer.data.Change;
 import com.application.visualizer.data.Global;
 import com.application.visualizer.data.Movement;
 import com.application.visualizer.data.algorithms.*;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.internal.Pair;
 
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class VisualizerController {
     private int counter = 0;
@@ -20,8 +25,6 @@ public class VisualizerController {
     public VisualizerController(Array array, CurrentStepPanel currentStepPanel,
                                 ControlPanel controlPanel, AlgorithmSettingsPanel algorithmSettingsPanel,
                                 SizeSettingsPanel sizeSettingsPanel) {
-
-        this.movements = new MaximumSelectionSort(array.getList()).getMovements();
         this.array = array;
         this.currentStepPanel = currentStepPanel;
         this.controlPanel = controlPanel;
@@ -31,14 +34,14 @@ public class VisualizerController {
         addAlgorithmChangeListener();
         addSizeChangeListener();
         addControlClickListener();
-        play();
+        setMovements();
     }
 
     private void addControlClickListener() {
-        controlPanel.getNextButton().addClickListener((buttonClickEvent -> play()));
+        controlPanel.getNextButton().addClickListener((buttonClickEvent -> next()));
         controlPanel.getStartButton().addClickListener((buttonClickEvent -> start()));
         controlPanel.getEndButton().addClickListener((buttonClickEvent -> end()));
-        controlPanel.getPreviousButton().setDisableOnClick(true);
+        controlPanel.getPreviousButton().addClickListener((buttonClickEvent -> previous()));
     }
 
     private void addAlgorithmChangeListener() {
@@ -93,10 +96,10 @@ public class VisualizerController {
         start();
     }
 
-    public void play() {
+    public void next() {
+
         if (counter == this.movements.size()) return;
         Movement currentMovement = movements.get(counter);
-
         currentStepPanel.set(currentMovement.getCurrentStep());
         controlPanel.setCounterLabel((counter + 1) + " / " + movements.size());
         counter++;
@@ -105,72 +108,81 @@ public class VisualizerController {
         for (int i = 0; i < currentMovement.getChanges().size(); i++) {
             this.array.animation(currentMovement.getChanges().get(i), currentMovement.getIndex().get(i));
         }
+
     }
 
     public void start() {
         counter = 0;
-        play();
+        next();
         array.setUnsortedArray();
     }
 
     public void end() {
         counter = this.movements.size() - 1;
-        play();
+        next();
         array.setSortedArray();
 
     }
 
 
-    //    public void playBackward() {
-//
-//        if (counter == 0) return;
-//
-//        this.counter--;
-//
-//        Movement currentMovement = movements.get(counter);
-//        Notification.show(currentMovement.getCurrentStep(), 2000, Notification.Position.TOP_END);
-//
-//
-//        if (currentMovement.getChanges() == null) return;
-//
-//
-//        for (int i = 0; i < currentMovement.getChanges().size(); i++) {
-//            currentAnimationBackward(currentMovement.getChanges().get(i), currentMovement.getIndex().get(i));
-//        }
-//    }
+    public void previous() {
+        if (counter < 2) return;
 
-//    private void currentAnimationBackward(Change change, Pair<Integer, Integer> indexes) {
-//
-//        switch (change) {
-//            case SWAP -> swap.accept(new Pair<>(indexes.getSecond(), indexes.getFirst()));
-//            case RESET, SECOND_SELECTED, SELECTED, SORTED -> {
-//                Change currentChange = findPreviousChange(indexes.getFirst());
-//                currentAnimation(currentChange, indexes);
-//            }
-//            default -> throw new IllegalArgumentException("Unknown change value");
-//        }
-//    }
 
-//    private Change findPreviousChange(int index) {
-//
-//        for (int i = this.counter; i >= 0; i--) {
-//            Movement currentMovement = this.movements.get(i);
-//            var find = findIndexWithChange(currentMovement, index);
-//            if (find.getFirst()) return find.getSecond();
-//        }
-//        return Change.RESET;
-//    }
+        counter = counter - 2;
+        Movement prevMovement = movements.get(counter);
+        currentStepPanel.set(prevMovement.getCurrentStep());
+        controlPanel.setCounterLabel((counter + 1) + " / " + movements.size());
 
-//    private Pair<Boolean, Change> findIndexWithChange(Movement currentMovement, int index) {
-//
-//        for (int j = 0; j < currentMovement.getChanges().size(); j++) {
-//
-//            boolean findIndex = currentMovement.getIndex().get(j).getFirst() == index;
-//            boolean findChangeStyle = currentMovement.getChanges().get(j) != Change.SWAP;
-//
-//            if (findIndex && findChangeStyle) return new Pair<>(true, currentMovement.getChanges().get(j));
-//        }
-//
-//        return new Pair<>(false, null);
-//    }
+        counter = counter + 1;
+
+        prevMovement = movements.get(counter);
+        if (prevMovement.getChanges() == null) return;
+
+        for (int i = 0; i < prevMovement.getChanges().size(); i++) {
+            currentAnimationBackward(prevMovement.getChanges().get(i), prevMovement.getIndex().get(i));
+        }
+
+    }
+
+
+    private void currentAnimationBackward(Change change, Pair<Integer, Integer> indexes) {
+
+        switch (change) {
+            case SWAP -> array.animation(Change.SWAP, new Pair<>(indexes.getSecond(), indexes.getFirst()));
+            case RESET, SECOND_SELECTED, SELECTED, SORTED, THIRD_SELECTED -> {
+                Change prevChange = findPreviousChange(indexes.getFirst());
+                array.animation(prevChange, indexes);
+            }
+            default -> throw new IllegalArgumentException("Unknown change value");
+        }
+    }
+
+    private Change findPreviousChange(int index) {
+
+        for (int i = this.counter-1; i >= 0; i--) {
+            Movement currentMovement = this.movements.get(i);
+            if (currentMovement.getChanges() == null ) continue;
+            var find = findIndexWithChange(currentMovement, index);
+            if (find.getFirst()) {
+                System.out.println("find");
+                return find.getSecond();
+            }
+        }
+        System.out.println("not find");
+        return Change.RESET;
+    }
+
+    private Pair<Boolean, Change> findIndexWithChange(Movement currentMovement, int index) {
+        for (int j = 0; j < currentMovement.getChanges().size(); j++) {
+
+            boolean findIndex = currentMovement.getIndex().get(j).getFirst() == index;
+            boolean findChangeStyle = currentMovement.getChanges().get(j) != Change.SWAP;
+
+            if (findIndex && findChangeStyle) return new Pair<>(true, currentMovement.getChanges().get(j));
+        }
+
+        return new Pair<>(false, null);
+    }
+
 }

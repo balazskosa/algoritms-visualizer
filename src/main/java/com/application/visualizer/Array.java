@@ -15,9 +15,7 @@ public class Array extends Div {
     private List<Integer> list;
 
     public Array(List<Integer> list) {
-        this.list = new ArrayList<>(list);
         this.addClassName("array");
-
         setItems(list);
     }
 
@@ -26,7 +24,7 @@ public class Array extends Div {
         return (Number) this.getComponentAt(index);
     }
 
-    public Consumer<Pair<Integer, Integer>> swap = (indexes) -> {
+    private final Consumer<Pair<Integer, Integer>> swap = (indexes) -> {
         Number firstNumber = getNumberAtIndex(indexes.getFirst());
         Number secondNumber = getNumberAtIndex(indexes.getSecond());
         int tmp = firstNumber.getValue();
@@ -66,7 +64,7 @@ public class Array extends Div {
     }
 
     public void setItems(List<Integer> list) {
-        this.list = list;
+        this.list = new ArrayList<>(list);
         this.removeAll();
         list.forEach((value) -> {
             Number number = new Number(value);
@@ -96,8 +94,8 @@ public class Array extends Div {
 
     public void setSortedArray() {
         List<Integer> sortedList = list.stream().sorted().toList();
-        setItems(sortedList);
         for (int i = 0; i < list.size(); i++) {
+            getNumberAtIndex(i).setValue(sortedList.get(i));
             getNumberAtIndex(i).sortedStyle();
         }
     }
