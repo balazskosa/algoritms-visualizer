@@ -1,7 +1,9 @@
 package com.application.visualizer;
 
+import com.application.visualizer.data.Global;
 import com.application.visualizer.data.Movement;
-import com.application.visualizer.data.algorithms.MaximumSelectionSort;
+import com.application.visualizer.data.algorithms.*;
+import com.vaadin.flow.component.notification.Notification;
 
 import java.util.List;
 
@@ -27,25 +29,46 @@ public class VisualizerController {
         this.algorithmSettingsPanel = algorithmSettingsPanel;
         this.sizeSettingsPanel = sizeSettingsPanel;
 
-        setControlPanelClickListener();
+        addControlPanelClickListener();
         play();
+        addAlgorithmSettingsPanelValueChangeListener();
 
     }
 
-    private void setControlPanelClickListener() {
+    private void addControlPanelClickListener() {
         controlPanel.getNextButton().addClickListener((buttonClickEvent -> play()));
         controlPanel.getStartButton().addClickListener((buttonClickEvent -> start()));
         controlPanel.getEndButton().addClickListener((buttonClickEvent -> end()));
         controlPanel.getPreviousButton().setDisableOnClick(true);
     }
 
+    private void addAlgorithmSettingsPanelValueChangeListener() {
+        algorithmSettingsPanel.getGroup().addValueChangeListener((valueChangeEvent -> {
+            Sort sort;
+            switch (algorithmSettingsPanel.getSelectedValue()) {
+                case "Maximum Selection Sort" -> sort = new MaximumSelectionSort(array.getList());
+                case "Insertion sort" -> sort = new InsertionSort(array.getList());
+                case "Bubble sort" -> sort = new BubbleSort(array.getList());
+                case "Quicksort" -> sort = new QuickSort(array.getList());
+                //case "Tournament sort" ->;
+                //case "Mergesort" -> ;
+                //case "Heapsort" ->;
+                default -> {
+                    algorithmSettingsPanel.getGroup().setValue(Global.algorithm);
+                    Notification.show("Not implemented algorithms");
+                    throw new IllegalArgumentException("Wrong value");
+                }
+            }
+            setMovements(sort.getMovements());
+        }));
+    }
 
     public void play() {
         if (counter == this.movements.size()) return;
         Movement currentMovement = movements.get(counter);
 
         currentStepPanel.set(currentMovement.getCurrentStep());
-        controlPanel.setCounterLabel((counter+1) + " / " + movements.size());
+        controlPanel.setCounterLabel((counter + 1) + " / " + movements.size());
         counter++;
 
         if (currentMovement.getChanges() == null) return;
