@@ -13,6 +13,7 @@ public abstract class SortComplexity {
 
     public SortComplexity(int size) {
         this.numbers = generateList(size);
+        sort();
     }
 
     protected abstract void sort();

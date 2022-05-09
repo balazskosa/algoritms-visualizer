@@ -12,7 +12,6 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @AnonymousAllowed
 public class ComplexityView extends VerticalLayout {
     public ComplexityView() {
-
         add(new ComplexityPanel());
     }
 }
