@@ -1,4 +1,4 @@
-package com.application.complexity.data;
+package com.application.complexity;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -27,7 +27,7 @@ public abstract class SortComplexity {
 
     private List<Integer> generateList(int size) {
         int min = 1;
-        int max = size * 1000;
+        int max = size * 10;
         Set<Integer> numbers = new LinkedHashSet<>(size);
         while (numbers.size() != size) {
             numbers.add(ThreadLocalRandom.current().nextInt(min, max + 1));
