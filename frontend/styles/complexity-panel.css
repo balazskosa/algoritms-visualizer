@@ -1,0 +1,28 @@
+.complexity-panel {
+    border: 1px solid rgba(1,1,1,0.125);
+    border-radius: 5px;
+    box-shadow: 5px 10px 5px rgba(1,1,1,0.5);
+    margin: auto;
+    width: 50vw;
+    padding: 10px;
+}
+.complexity-panel-inline-block {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.complexity-panel > * {
+    border: 1px solid rgba(1,1,1,0.125);
+    border-radius: 5px;
+    box-shadow: 5px 10px 5px rgba(1,1,1,0.5);
+    padding: 5px;
+}
+
+.complexity-panel > * > * {
+    border: 1px solid rgba(1,1,1,0.125);
+    border-radius: 5px;
+    box-shadow: 5px 10px 5px rgba(1,1,1,0.5);
+    padding: 5px;
+}

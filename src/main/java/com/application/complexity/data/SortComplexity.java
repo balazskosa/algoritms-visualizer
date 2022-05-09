@@ -1,4 +1,4 @@
-package com.application.complexity;
+package com.application.complexity.data;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

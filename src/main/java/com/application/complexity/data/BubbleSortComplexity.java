@@ -1,4 +1,4 @@
-package com.application.complexity;
+package com.application.complexity.data;
 
 public class BubbleSortComplexity extends SortComplexity {
     public BubbleSortComplexity(int size) {
