@@ -1,0 +1,38 @@
+.stuki {
+    width: 25vw;
+    margin: auto;
+    box-shadow: 5px 10px 5px rgba(1,1,1,0.5);
+    text-align: center;
+    direction: rtl;
+    word-wrap: break-word;
+}
+.body {
+    box-shadow: 5px 10px 5px rgba(1,1,1,0.5);
+}
+
+.sequence {
+    box-shadow: 3px 3px 3px rgba(1,1,1,0.3) inset;
+}
+
+.loop {
+    box-shadow: 3px 3px 3px rgba(1,1,1,0.3) inset;
+}
+
+.loop > div {
+    width: 90%;
+}
+
+.condition {
+    box-shadow: 3px 3px 3px rgba(1,1,1,0.3) inset;
+}
+
+
+.branches {
+    display: flex;
+    flex-direction: row;
+}
+.branches > div {
+    width: 50%;
+}
+
+
