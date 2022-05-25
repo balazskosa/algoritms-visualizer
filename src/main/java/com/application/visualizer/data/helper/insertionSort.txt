@@ -1,0 +1,37 @@
+<h1>Insertion Sort Algorithm<h1>
+<span>
+Insertion sort is a sorting algorithm that places an unsorted element at its suitable place in each iteration.
+</span>
+<span>
+Insertion sort works similarly as we sort cards in our hand in a card game.
+</span>
+<span>
+We assume that the first card is already sorted then, we select an unsorted card. If the unsorted card is greater than the card in hand, it is placed on the right otherwise, to the left. In the same way, other unsorted cards are taken and put in their right place.
+</span>
+<span>
+A similar approach is used by insertion sort.
+</span>
+
+<h2>
+Working of Insertion Sort
+</h2>
+
+<ol>
+    <li>
+The first element in the array is assumed to be sorted. Take the second element and store it separately in key.
+Compare key with the first element. If the first element is greater than key, then key is placed in front of the first element.
+    </li>
+Now, the first two elements are sorted.
+
+Take the third element and compare it with the elements on the left of it. Placed it just behind the element smaller than it. If there is no element smaller than it, then place it at the beginning of the array.
+    <li>
+Similarly, place every unsorted element at its correct position.
+    </li>
+</ol>
+
+<h2>
+Insertion Sort Algorithm
+</h2>
+
+
+
