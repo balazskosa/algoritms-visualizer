@@ -1,20 +1,19 @@
 /*Now the CSS*/
 .container {
     margin: auto;
-    width: 50vw;
+    width: 100vw;
     background: rgb(1,1,1, 0.1);
     border-radius: 2em;
-    overflow: auto;
 }
 .tree {
     margin: auto;
-    zoom: 70%;
+    zoom: 60%;
 }
 
 .tree ul {
     display:flex;
     justify-content: center;
-    padding: 20px 5px 0 0;
+    padding: 20px 0 0 0;
     position: relative;
     transition: all 0.5s;
     -webkit-transition: 0.5s;

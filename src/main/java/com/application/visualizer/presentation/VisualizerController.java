@@ -1,10 +1,20 @@
-package com.application.visualizer;
+package com.application.visualizer.presentation;
 
 import com.application.visualizer.data.Change;
 import com.application.visualizer.data.Global;
 import com.application.visualizer.data.Movement;
 import com.application.visualizer.data.algorithms.*;
+import com.application.visualizer.view.AlgorithmSettingsPanel;
+import com.application.visualizer.view.ControlPanel;
+import com.application.visualizer.view.CurrentStepPanel;
+import com.application.visualizer.view.SizeSettingsPanel;
+import com.application.visualizer.view.visualizerelements.Array;
+import com.application.visualizer.view.visualizerelements.BinaryTree;
+import com.application.visualizer.view.visualizerelements.TournamentTree;
+import com.application.visualizer.view.visualizerelements.Tree;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.internal.Pair;
 
 import java.util.LinkedHashSet;
@@ -15,33 +25,53 @@ import java.util.Set;
 public class VisualizerController {
     private int counter = 0;
     private List<Movement> movements;
-    protected final Array array;
+    private final Array array;
     private final CurrentStepPanel currentStepPanel;
     private final ControlPanel controlPanel;
     private final AlgorithmSettingsPanel algorithmSettingsPanel;
     private final SizeSettingsPanel sizeSettingsPanel;
 
+    private Tree tree;
+    private final VerticalLayout view;
+    private final Animation animation;
 
     public VisualizerController(Array array, CurrentStepPanel currentStepPanel,
                                 ControlPanel controlPanel, AlgorithmSettingsPanel algorithmSettingsPanel,
-                                SizeSettingsPanel sizeSettingsPanel) {
+                                SizeSettingsPanel sizeSettingsPanel, VerticalLayout view) {
         this.array = array;
         this.currentStepPanel = currentStepPanel;
         this.controlPanel = controlPanel;
         this.algorithmSettingsPanel = algorithmSettingsPanel;
         this.sizeSettingsPanel = sizeSettingsPanel;
+        this.view = view;
+
 
         addAlgorithmChangeListener();
         addSizeChangeListener();
         addControlClickListener();
         setMovements();
+
+        this.animation = new Animation(array);
+
+
     }
 
     private void addControlClickListener() {
         controlPanel.getNextButton().addClickListener((buttonClickEvent -> next()));
+        controlPanel.getNextButton().addClickShortcut(Key.ARROW_RIGHT);
+
         controlPanel.getStartButton().addClickListener((buttonClickEvent -> start()));
+        controlPanel.getStartButton().addClickShortcut(Key.ARROW_DOWN);
+
         controlPanel.getEndButton().addClickListener((buttonClickEvent -> end()));
+        controlPanel.getEndButton().addClickShortcut(Key.ARROW_UP);
+
         controlPanel.getPreviousButton().addClickListener((buttonClickEvent -> previous()));
+        controlPanel.getPreviousButton().addClickShortcut(Key.ARROW_LEFT);
+    }
+
+    public String getAlgorithm() {
+        return this.algorithmSettingsPanel.getSelectedValue();
     }
 
     private void addAlgorithmChangeListener() {
@@ -54,14 +84,15 @@ public class VisualizerController {
             switch (sizeSettingsPanel.getSelectedValue()) {
                 case "Small" -> array.setItems(randomList(7));
                 case "Medium" -> array.setItems(randomList(12));
-                case "Large" -> array.setItems(randomList(15));
-                //case "Unique" ->;
-                default -> {
-                    algorithmSettingsPanel.getGroup().setValue(Global.size);
+                case "Large" -> array.setItems(randomList(16));
+                case "Unique" -> {
                     Notification.show("Not implemented size");
-                    throw new IllegalArgumentException("Not implemented size");
+                    array.setItems(randomList(12));
+                    sizeSettingsPanel.getGroup().setValue(Global.size);
                 }
+                default -> throw new IllegalArgumentException("Not implemented size");
             }
+
             setMovements();
         });
     }
@@ -78,20 +109,38 @@ public class VisualizerController {
 
     public void setMovements() {
         Sort sort;
+        if (tree != null) view.remove(tree);
+        tree = null;
+
         switch (algorithmSettingsPanel.getSelectedValue()) {
+
             case "Maximum Selection Sort" -> sort = new MaximumSelectionSort(array.getList());
             case "Insertion sort" -> sort = new InsertionSort(array.getList());
             case "Bubble sort" -> sort = new BubbleSort(array.getList());
             case "Quicksort" -> sort = new QuickSort(array.getList());
-            //case "Tournament sort" ->;
-            //case "Mergesort" -> ;
-            //case "Heapsort" ->;
-            default -> {
+            case "Heapsort" -> {
+                sort = new HeapSort(array.getList());
+                tree = new BinaryTree(array.getList().size());
+            }
+
+            case "Tournament sort" -> {
+                Notification.show("tournament");
+                sort = new TournamentSort(array.getList());
+                tree = new TournamentTree(array.getList().size());
+            }
+            case "Mergesort" -> {
+                sort = new MaximumSelectionSort(array.getList());
                 algorithmSettingsPanel.getGroup().setValue(Global.algorithm);
                 Notification.show("Not implemented algorithm");
-                throw new IllegalArgumentException("Wrong value");
             }
+            default -> throw new IllegalArgumentException("Wrong value");
         }
+
+        if (tree != null) {
+            view.add(tree);
+            animation.setTree(tree);
+        }
+
         movements = sort.getMovements();
         start();
     }
@@ -106,7 +155,7 @@ public class VisualizerController {
 
         if (currentMovement.getChanges() == null) return;
         for (int i = 0; i < currentMovement.getChanges().size(); i++) {
-            this.array.animation(currentMovement.getChanges().get(i), currentMovement.getIndex().get(i));
+            animation.animation(currentMovement.getChanges().get(i), currentMovement.getIndex().get(i));
         }
 
     }
@@ -121,13 +170,11 @@ public class VisualizerController {
         counter = this.movements.size() - 1;
         next();
         array.setSortedArray();
-
     }
 
 
     public void previous() {
         if (counter < 2) return;
-
 
         counter = counter - 2;
         Movement prevMovement = movements.get(counter);
@@ -149,10 +196,10 @@ public class VisualizerController {
     private void currentAnimationBackward(Change change, Pair<Integer, Integer> indexes) {
 
         switch (change) {
-            case SWAP -> array.animation(Change.SWAP, new Pair<>(indexes.getSecond(), indexes.getFirst()));
+            case SWAP -> animation.animation(Change.SWAP, new Pair<>(indexes.getSecond(), indexes.getFirst()));
             case RESET, SECOND_SELECTED, SELECTED, SORTED, THIRD_SELECTED -> {
                 Change prevChange = findPreviousChange(indexes.getFirst());
-                array.animation(prevChange, indexes);
+                animation.animation(prevChange, indexes);
             }
             default -> throw new IllegalArgumentException("Unknown change value");
         }
@@ -160,18 +207,17 @@ public class VisualizerController {
 
     private Change findPreviousChange(int index) {
 
-        for (int i = this.counter-1; i >= 0; i--) {
+        for (int i = this.counter - 1; i >= 0; i--) {
             Movement currentMovement = this.movements.get(i);
-            if (currentMovement.getChanges() == null ) continue;
+            if (currentMovement.getChanges() == null) continue;
             var find = findIndexWithChange(currentMovement, index);
             if (find.getFirst()) {
-                System.out.println("find");
                 return find.getSecond();
             }
         }
-        System.out.println("not find");
         return Change.RESET;
     }
+
 
     private Pair<Boolean, Change> findIndexWithChange(Movement currentMovement, int index) {
         for (int j = 0; j < currentMovement.getChanges().size(); j++) {
@@ -184,5 +230,4 @@ public class VisualizerController {
 
         return new Pair<>(false, null);
     }
-
 }
