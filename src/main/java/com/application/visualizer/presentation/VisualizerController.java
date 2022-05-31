@@ -8,10 +8,7 @@ import com.application.visualizer.view.AlgorithmSettingsPanel;
 import com.application.visualizer.view.ControlPanel;
 import com.application.visualizer.view.CurrentStepPanel;
 import com.application.visualizer.view.SizeSettingsPanel;
-import com.application.visualizer.view.visualizerelements.Array;
-import com.application.visualizer.view.visualizerelements.BinaryTree;
-import com.application.visualizer.view.visualizerelements.TournamentTree;
-import com.application.visualizer.view.visualizerelements.Tree;
+import com.application.visualizer.view.visualizerelements.*;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -24,7 +21,7 @@ import java.util.Set;
 
 public class VisualizerController {
     private int counter = 0;
-    private List<Movement> movements;
+    public List<Movement> movements;
     private final Array array;
     private final CurrentStepPanel currentStepPanel;
     private final ControlPanel controlPanel;
@@ -32,6 +29,7 @@ public class VisualizerController {
     private final SizeSettingsPanel sizeSettingsPanel;
 
     private Tree tree;
+    private MergeSortTemporaryArray mergeSortTemporaryArray;
     private final VerticalLayout view;
     private final Animation animation;
 
@@ -110,7 +108,9 @@ public class VisualizerController {
     public void setMovements() {
         Sort sort;
         if (tree != null) view.remove(tree);
+        if(mergeSortTemporaryArray != null) view.remove(mergeSortTemporaryArray);
         tree = null;
+        mergeSortTemporaryArray = null;
 
         switch (algorithmSettingsPanel.getSelectedValue()) {
 
@@ -124,14 +124,13 @@ public class VisualizerController {
             }
 
             case "Tournament sort" -> {
-                Notification.show("tournament");
                 sort = new TournamentSort(array.getList());
                 tree = new TournamentTree(array.getList().size());
             }
             case "Mergesort" -> {
-                sort = new MaximumSelectionSort(array.getList());
-                algorithmSettingsPanel.getGroup().setValue(Global.algorithm);
-                Notification.show("Not implemented algorithm");
+                sort = new MergeSort(array.getList());
+                mergeSortTemporaryArray = new MergeSortTemporaryArray();
+
             }
             default -> throw new IllegalArgumentException("Wrong value");
         }
@@ -139,6 +138,11 @@ public class VisualizerController {
         if (tree != null) {
             view.add(tree);
             animation.setTree(tree);
+        }
+
+        if (mergeSortTemporaryArray != null) {
+            view.add(mergeSortTemporaryArray);
+            animation.setMergeSortTemporaryArray(mergeSortTemporaryArray);
         }
 
         movements = sort.getMovements();

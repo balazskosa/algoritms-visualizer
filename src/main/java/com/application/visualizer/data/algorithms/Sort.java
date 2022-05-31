@@ -10,7 +10,6 @@ public abstract class Sort {
     protected final List<Movement> movements = new ArrayList<>();
     protected String step;
     protected Movement movement;
-
     public Sort(List<Integer> list) {
         this.numbers = new ArrayList<>(list);
 
@@ -28,6 +27,5 @@ public abstract class Sort {
     public List<Integer> getNumbers() {
         return numbers;
     }
-
 
 }

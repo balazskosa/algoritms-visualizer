@@ -1,9 +1,10 @@
 package com.application.visualizer.presentation;
 
 import com.application.visualizer.data.Change;
-import com.application.visualizer.view.Array;
-import com.application.visualizer.view.BinaryTree;
-import com.application.visualizer.view.Number;
+import com.application.visualizer.view.visualizerelements.Array;
+import com.application.visualizer.view.visualizerelements.MergeSortTemporaryArray;
+import com.application.visualizer.view.visualizerelements.Number;
+import com.application.visualizer.view.visualizerelements.Tree;
 import com.vaadin.flow.internal.Pair;
 
 import java.util.List;
@@ -11,15 +12,14 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Animation {
-
-
     Array array;
-    BinaryTree tree;
+    Tree tree;
+    MergeSortTemporaryArray mergeSortTemporaryArray;
 
-    public Animation(Array array, BinaryTree tree) {
-        this.array = array;
-        this.tree = tree;
-    }
+//    public Animation(Array array, Tree tree) {
+//        this.array = array;
+//        this.tree = tree;
+//    }
 
     public Animation(Array array) {
         this.array = array;
@@ -64,7 +64,16 @@ public class Animation {
         tree.getNumberAtIndex(index.getFirst()).setValue(index.getSecond());
     };
 
+    private final BiConsumer<Pair<Integer, Integer>, List<Number>> setRightPadding = (index, list) ->
+            list.get(index.getFirst()).setRightMargin();
+
+    private final BiConsumer<Pair<Integer, Integer>, List<Number>> resetRightPadding = (index, list) ->
+            list.get(index.getFirst()).resetRightMargin();
     private final Consumer<Pair<Integer, Integer>> deleteNode = (index) -> tree.deleteNode();
+
+    private final Consumer<Pair<Integer, Integer>> addNumber = (index) -> mergeSortTemporaryArray.addNumber(index.getFirst());
+
+    private final Consumer<Pair<Integer, Integer>> clear = (index) -> mergeSortTemporaryArray.clear();
 
 
     public void animation(Change change, Pair<Integer, Integer> indexes) {
@@ -77,6 +86,15 @@ public class Animation {
             case SORTED -> sorted.accept(indexes, array.getNumbers());
             case SWAP_TO_SECOND -> swapToSecond.accept(indexes, array.getNumbers());
             case SET_VALUE -> setValue.accept(indexes, array.getNumbers());
+            case SET_RIGHT_MARGIN -> setRightPadding.accept(indexes, array.getNumbers());
+            case RESET_RIGHT_MARGIN -> resetRightPadding.accept(indexes, array.getNumbers());
+
+            case TMP_ARRAY_RESET -> reset.accept(indexes, mergeSortTemporaryArray.getNumbers());
+            case TMP_ARRAY_SELECTED -> selected.accept(indexes, mergeSortTemporaryArray.getNumbers());
+            case TMP_ARRAY_SET_VALUE -> setValue.accept(indexes, mergeSortTemporaryArray.getNumbers());
+            case TMP_ARRAY_SET_RIGHT_MARGIN -> setRightPadding.accept(indexes, mergeSortTemporaryArray.getNumbers());
+            case TMP_ARRAY_ADD -> addNumber.accept(indexes);
+            case TMP_ARRAY_CLEAR -> clear.accept(indexes);
 
             case RESET_NODE -> reset.accept(indexes, tree.getNumbers());
             case SWAP_NODES -> swap.accept(indexes, tree.getNumbers());
@@ -84,6 +102,7 @@ public class Animation {
             case SET_VALUE_NODE -> setValue.accept(indexes, tree.getNumbers());
             case ADD_NODE -> addNode.accept(indexes);
             case DELETE_NODE -> deleteNode.accept(indexes);
+
             default -> throw new IllegalArgumentException("Unknown change value");
         }
     }
@@ -92,8 +111,12 @@ public class Animation {
         this.array = array;
     }
 
-    public void setTree(BinaryTree tree) {
+    public void setTree(Tree tree) {
         this.tree = tree;
+    }
+
+    public void setMergeSortTemporaryArray(MergeSortTemporaryArray array) {
+        this.mergeSortTemporaryArray = array;
     }
 
 }

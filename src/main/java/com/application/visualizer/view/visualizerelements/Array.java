@@ -1,4 +1,4 @@
-package com.application.visualizer.view;
+package com.application.visualizer.view.visualizerelements;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
@@ -13,11 +13,15 @@ public class Array extends Div {
 
     private final List<Number> numbers = new ArrayList<>();
 
+    public Array() {
+        this.addClassName("array");
+    }
+
     public Array(List<Integer> list) {
         this.addClassName("array");
         setItems(list);
-
     }
+
     public List<Integer> getList() {
         return list;
     }
@@ -30,7 +34,6 @@ public class Array extends Div {
             Number number = new Number(value);
             numbers.add(number);
             this.add(number);
-            //number.animation();
         });
     }
 
@@ -50,4 +53,5 @@ public class Array extends Div {
     public List<Number> getNumbers() {
         return numbers;
     }
+
 }
