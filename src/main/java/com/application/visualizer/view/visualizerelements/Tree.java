@@ -35,4 +35,5 @@ public abstract class Tree extends Div {
     public ArrayList<Number> getNumbers() {
         return numbers;
     }
+
 }

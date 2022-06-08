@@ -11,8 +11,18 @@ public class Movement {
     private List<Pair<Integer, Integer>> index;
 
     public Movement(String currentStep) {
+        if(currentStep == null) {
+            changes = new ArrayList<>();
+            index = new ArrayList<>();
+        }
         this.currentStep = currentStep;
     }
+
+    public void initializeChanges() {
+        changes = new ArrayList<>();
+        index = new ArrayList<>();
+    }
+
 
     public Movement(String currentStep, Change change, Pair<Integer, Integer> indexes) {
         this.currentStep = currentStep;
@@ -38,5 +48,6 @@ public class Movement {
     public List<Pair<Integer, Integer>> getIndex() {
         return index;
     }
+
 }
 

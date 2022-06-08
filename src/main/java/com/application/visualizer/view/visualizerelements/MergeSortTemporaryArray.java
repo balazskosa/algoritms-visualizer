@@ -9,12 +9,13 @@ public class MergeSortTemporaryArray extends Array {
         Number number = new Number(value);
         getNumbers().add(number);
         this.add(number);
-        number.animation();
+        //number.animation();
     }
 
     public void clear() {
         this.removeAll();
-
         this.getNumbers().clear();
     }
+
+
 }

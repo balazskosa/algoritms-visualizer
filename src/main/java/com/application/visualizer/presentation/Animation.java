@@ -118,5 +118,28 @@ public class Animation {
     public void setMergeSortTemporaryArray(MergeSortTemporaryArray array) {
         this.mergeSortTemporaryArray = array;
     }
+    public void addAnimation(Change change, Pair<Integer, Integer> indexes) {
+        List<Change> swaps = List.of(Change.SWAP, Change.SWAP_TO_SECOND);
+        if (swaps.contains(change)) {
+            array.getNumbers().get(indexes.getFirst()).removeClassName("no-transition");
+            array.getNumbers().get(indexes.getSecond()).removeClassName("no-transition");
+        } else if (change.equals(Change.SWAP_NODES)) {
+            tree.getNumbers().get(indexes.getFirst()).removeClassName("no-transition");
+            tree.getNumbers().get(indexes.getSecond()).removeClassName("no-transition");
+        }
+    }
+
+    public void removeAnimationArray() {
+        this.array.getNumbers().forEach(number -> number.addClassName("no-transition"));
+    }
+    public void removeAnimationTree() {
+        this.tree.getNumbers().forEach(number -> number.addClassName("no-transition"));
+    }
+    public void removeAnimationTempArray() {
+        this.mergeSortTemporaryArray.getNumbers().forEach(number -> number.addClassName("no-transition"));
+    }
+
+
+
 
 }

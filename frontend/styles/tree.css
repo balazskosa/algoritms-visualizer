@@ -1,7 +1,6 @@
 /*Now the CSS*/
 .container {
     margin: auto;
-    width: 100vw;
     background: rgb(1,1,1, 0.1);
     border-radius: 2em;
 }
