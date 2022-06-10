@@ -82,7 +82,13 @@ public class MaximumSelectionSort extends Sort {
             movement = new Movement(step);
             this.movements.add(movement);
 
+
+
         }
+
+        step = "Last element is already sorted";
+        movement = new Movement(step, Change.SORTED, new Pair<>(0, null));
+        this.movements.add(movement);
     }
 
     @Override

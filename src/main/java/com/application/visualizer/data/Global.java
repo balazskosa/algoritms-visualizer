@@ -1,5 +1,7 @@
 package com.application.visualizer.data;
 
+import com.vaadin.flow.internal.Pair;
+
 import java.util.List;
 
 public class Global {
@@ -13,10 +15,15 @@ public class Global {
     public static final String SORTED_BORDER = "2px solid #013317";
 
     public static final List<String> ALGORITHMS = List.of("Maximum Selection Sort",
-            "Tournament sort", "Insertion sort", "Bubble sort", "Mergesort", "Quicksort", "Heapsort");
-    public static final String algorithm = "Maximum Selection Sort";
-    public static final List<String> SIZES = List.of("Small", "Medium", "Large", "Unique");
-    public static final String size = "Medium";
+            "Tournament Sort", "Insertion Sort", "Bubble Sort", "Mergesort", "Quicksort", "Heapsort");
+    public static final String algorithm = ALGORITHMS.get(0);
+    public static final List<Pair<String, Integer>> SIZES = List.of(
+            new Pair<>("Small", 7),
+            new Pair<>("Medium",12),
+            new Pair<>("Large", 16),
+        new Pair<>("Unique", null));
+
+    public static final Pair<String, Integer> size = SIZES.get(1);
 
     private Global() {}
 }

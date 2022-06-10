@@ -1,20 +1,16 @@
 package com.application.visualizer.presentation;
 
+import com.application.visualizer.data.Global;
 import com.application.visualizer.data.Movement;
-import com.application.visualizer.data.algorithms.*;
-import com.application.visualizer.view.AlgorithmSettingsPanel;
+import com.application.visualizer.data.algorithms.Sort;
 import com.application.visualizer.view.ControlPanel;
 import com.application.visualizer.view.CurrentStepPanel;
-import com.application.visualizer.view.SizeSettingsPanel;
 import com.application.visualizer.view.visualizerelements.*;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 public class VisualizerController {
     private int counter;
@@ -22,30 +18,35 @@ public class VisualizerController {
     private final Array array;
     private final CurrentStepPanel currentStepPanel;
     private final ControlPanel controlPanel;
-    private final AlgorithmSettingsPanel algorithmSettingsPanel;
-    private final SizeSettingsPanel sizeSettingsPanel;
     private Tree tree;
     private MergeSortTemporaryArray mergeSortTemporaryArray;
     private final VerticalLayout view;
     private final Animation animation;
 
-    public VisualizerController(Array array, CurrentStepPanel currentStepPanel,
-                                ControlPanel controlPanel, AlgorithmSettingsPanel algorithmSettingsPanel,
-                                SizeSettingsPanel sizeSettingsPanel, VerticalLayout view) {
+    private Sort sort;
+
+    public VisualizerController(Array array,
+                                CurrentStepPanel currentStepPanel,
+                                ControlPanel controlPanel,
+                                VerticalLayout view) {
         this.array = array;
         this.currentStepPanel = currentStepPanel;
         this.controlPanel = controlPanel;
-        this.algorithmSettingsPanel = algorithmSettingsPanel;
-        this.sizeSettingsPanel = sizeSettingsPanel;
         this.view = view;
+        this.animation = new Animation(array);
 
 
-        addAlgorithmChangeListener();
-        addSizeChangeListener();
+        try {
+            this.sort = (Sort) Class.forName("com.application.visualizer.data.algorithms." + Global.algorithm.replaceAll("\\s+", ""))
+                    .getConstructor(List.class).newInstance(array.getList());
+        } catch (Exception e) {
+            Notification.show("Something wrong with the sorting algorithm's initializing");
+            return;
+        }
+
         addControlClickListener();
         setMovements();
 
-        this.animation = new Animation(array);
 
     }
 
@@ -63,89 +64,10 @@ public class VisualizerController {
         controlPanel.getPreviousButton().addClickShortcut(Key.ARROW_LEFT);
     }
 
-    public String getAlgorithm() {
-        return this.algorithmSettingsPanel.getSelectedValue();
-    }
-
-    private void addAlgorithmChangeListener() {
-        algorithmSettingsPanel.getGroup().addValueChangeListener((valueChangeEvent) -> setMovements());
-    }
-
-    private void addSizeChangeListener() {
-
-        sizeSettingsPanel.getGroup().addValueChangeListener((valueChangeEvent) -> {
-            int small = 8;
-            int medium = 11;
-            int large = 16;
-
-            switch (sizeSettingsPanel.getSelectedValue()) {
-                case "Small" -> array.setItems(randomList(small));
-                case "Medium" -> array.setItems(randomList(medium));
-                case "Large" -> array.setItems(randomList(large));
-                case "Unique" -> {
-                    Dialog dialog = new Dialog();
-                    dialog.open();
-                    
-                }
-                default -> throw new IllegalArgumentException("Not implemented size");
-            }
-
-            setMovements();
-        });
-    }
-
-    private List<Integer> randomList(int n) {
-        Set<Integer> set = new LinkedHashSet<>();
-        Random rand = new Random();
-        while (set.size() != n) {
-            int randomValue = rand.nextInt(100);
-            set.add(randomValue);
-        }
-        return set.stream().toList();
-    }
-
     public void setMovements() {
-        Sort sort;
         counter = 0;
-
-        if (tree != null) view.remove(tree);
-        if (mergeSortTemporaryArray != null) view.remove(mergeSortTemporaryArray);
-        tree = null;
-        mergeSortTemporaryArray = null;
-
-        switch (algorithmSettingsPanel.getSelectedValue()) {
-
-            case "Maximum Selection Sort" -> sort = new MaximumSelectionSort(array.getList());
-            case "Insertion sort" -> sort = new InsertionSort(array.getList());
-            case "Bubble sort" -> sort = new BubbleSort(array.getList());
-            case "Quicksort" -> sort = new QuickSort(array.getList());
-            case "Heapsort" -> {
-                sort = new HeapSort(array.getList());
-                tree = new BinaryTree(array.getList().size());
-            }
-
-            case "Tournament sort" -> {
-                sort = new TournamentSort(array.getList());
-                tree = new TournamentTree(array.getList().size());
-            }
-            case "Mergesort" -> {
-                sort = new MergeSort(array.getList());
-                mergeSortTemporaryArray = new MergeSortTemporaryArray();
-
-            }
-            default -> throw new IllegalArgumentException("Wrong value");
-        }
         movements = sort.getMovements();
-
-        if (tree != null) {
-            view.add(tree);
-            animation.setTree(tree);
-        }
-
-        if (mergeSortTemporaryArray != null) {
-            view.add(mergeSortTemporaryArray);
-            animation.setMergeSortTemporaryArray(mergeSortTemporaryArray);
-        }
+        setTempArray();
         start();
     }
 
@@ -167,31 +89,14 @@ public class VisualizerController {
 
     public void start() {
         array.setUnsortedArray();
-        if(counter == 0) {
+        if (counter == 0) {
             next();
             return;
         }
 
         counter = 0;
-
-        if(tree != null) {
-            view.remove(tree);
-            if(tree instanceof TournamentTree)  {
-                tree = new TournamentTree(array.getList().size());
-            }
-            if(tree instanceof BinaryTree) {
-                tree = new BinaryTree(array.getList().size());
-            }
-            view.add(tree);
-            animation.setTree(tree);
-        }
-
-        if(mergeSortTemporaryArray != null) {
-            view.remove(mergeSortTemporaryArray);
-            mergeSortTemporaryArray = new MergeSortTemporaryArray();
-            view.add(mergeSortTemporaryArray);
-            animation.setMergeSortTemporaryArray(mergeSortTemporaryArray);
-        }
+        setTempArray();
+        next();
 
     }
 
@@ -227,12 +132,12 @@ public class VisualizerController {
         array.setUnsortedArray();
         animation.removeAnimationArray();
 
-        if(tree != null) {
+        if (tree != null) {
             view.remove(tree);
-            if(tree instanceof TournamentTree)  {
+            if (tree instanceof TournamentTree) {
                 tree = new TournamentTree(array.getList().size());
             }
-            if(tree instanceof BinaryTree) {
+            if (tree instanceof BinaryTree) {
                 tree = new BinaryTree(array.getList().size());
             }
 
@@ -241,7 +146,7 @@ public class VisualizerController {
             animation.removeAnimationTree();
         }
 
-        if(mergeSortTemporaryArray != null) {
+        if (mergeSortTemporaryArray != null) {
             view.remove(mergeSortTemporaryArray);
             mergeSortTemporaryArray = new MergeSortTemporaryArray();
             view.add(mergeSortTemporaryArray);
@@ -259,4 +164,53 @@ public class VisualizerController {
         }
         counter = counter + 1;
     }
+
+    public void setTree(Tree tree) {
+        this.tree = tree;
+    }
+
+    public void setMergeSortTemporaryArray(MergeSortTemporaryArray mergeSortTemporaryArray) {
+        this.mergeSortTemporaryArray = mergeSortTemporaryArray;
+    }
+
+    public void setSort(Sort sort) {
+        this.sort = sort;
+    }
+
+    public Array getArray() {
+        return array;
+    }
+
+    public Sort getSort() {
+        return sort;
+    }
+    private void setTempArray() {
+        if(view.getComponentCount() == 2) {
+            view.remove(view.getComponentAt(1));
+
+            if(tree != null) {
+                tree = null;
+            } else if(mergeSortTemporaryArray != null) mergeSortTemporaryArray = null;
+        }
+
+
+        switch (sort.getClass().getSimpleName()) {
+            case "Mergesort" -> {
+                mergeSortTemporaryArray = new MergeSortTemporaryArray();
+                view.add(mergeSortTemporaryArray);
+                animation.setMergeSortTemporaryArray(mergeSortTemporaryArray);
+            }
+            case "Heapsort" -> {
+                tree = new BinaryTree(array.getList().size());
+                view.add(tree);
+                animation.setTree(tree);
+            }
+            case "TournamentSort" -> {
+                tree = new TournamentTree(array.getList().size());
+                view.add(tree);
+                animation.setTree(tree);
+            }
+        }
+    }
+
 }

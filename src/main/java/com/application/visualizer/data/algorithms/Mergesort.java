@@ -7,8 +7,8 @@ import com.vaadin.flow.internal.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MergeSort extends Sort {
-    public MergeSort(List<Integer> list) {
+public class Mergesort extends Sort {
+    public Mergesort(List<Integer> list) {
         super(list);
     }
 

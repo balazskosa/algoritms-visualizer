@@ -6,8 +6,8 @@ import com.vaadin.flow.internal.Pair;
 
 import java.util.List;
 
-public class HeapSort extends Sort {
-    public HeapSort(List<Integer> list) {
+public class Heapsort extends Sort {
+    public Heapsort(List<Integer> list) {
         super(list);
     }
 

@@ -6,9 +6,9 @@ import com.vaadin.flow.internal.Pair;
 
 import java.util.List;
 
-public class QuickSort extends Sort {
+public class Quicksort extends Sort {
 
-    public QuickSort(List<Integer> list) {
+    public Quicksort(List<Integer> list) {
         super(list);
     }
 

@@ -1,5 +1,6 @@
 package com.application.visualizer;
 
+import com.application.visualizer.presentation.VisualizerController;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -9,10 +10,12 @@ import java.util.List;
 
 @CssImport("./styles/settings-panel.css")
 public abstract class SettingsPanel extends Div {
-    private final RadioButtonGroup<String> group;
+    protected final RadioButtonGroup<String> group;
+    protected final VisualizerController controller;
 
-    public SettingsPanel(String title, List<String> items, String selectedItem) {
+    public SettingsPanel(String title, List<String> items, String selectedItem, VisualizerController controller) {
         this.addClassName("settings-panel");
+        this.controller = controller;
 
         this.group = new RadioButtonGroup<>();
         this.group.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
@@ -22,12 +25,5 @@ public abstract class SettingsPanel extends Div {
         this.add(this.group);
     }
 
-    public RadioButtonGroup<String> getGroup() {
-        return group;
-    }
-
-    public String getSelectedValue() {
-        return this.group.getValue();
-    }
 
 }
