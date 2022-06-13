@@ -175,6 +175,7 @@ public class VisualizerController {
 
     public void setSort(Sort sort) {
         this.sort = sort;
+        setMovements();
     }
 
     public Array getArray() {
@@ -212,5 +213,4 @@ public class VisualizerController {
             }
         }
     }
-
 }

@@ -21,7 +21,7 @@ public class Global {
             new Pair<>("Small", 7),
             new Pair<>("Medium",12),
             new Pair<>("Large", 16),
-        new Pair<>("Unique", null));
+        new Pair<>("Custom", null));
 
     public static final Pair<String, Integer> size = SIZES.get(1);
 

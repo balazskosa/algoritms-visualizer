@@ -11,14 +11,17 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class SizeSettingsPanel extends SettingsPanel{
+public class SizeSettingsPanel extends SettingsPanel {
     public SizeSettingsPanel(VisualizerController controller) {
 
         super("Size",
                 Global.SIZES.stream().map(Pair::getFirst).collect(Collectors.toList()),
                 Global.size.getFirst(), controller);
 
-        group.addValueChangeListener((e)-> setSize());
+        group.addValueChangeListener((e) -> setSize());
+
+
+
     }
 
     private List<Integer> randomList(int n) {
@@ -32,24 +35,48 @@ public class SizeSettingsPanel extends SettingsPanel{
     }
 
     private void unique() {
+        CustomListDialog dialog = new CustomListDialog(controller);
+        dialog.open();
+
+        dialog.getCancelButton().addClickListener((click) -> {
+            this.group.setValue(Global.size.getFirst());
+            dialog.close();
+        });
+
+       dialog.getAddSizeButton().addClickListener((click) -> {
+           controller.getArray().setItems(randomList(dialog.getSize()));
+           setSort();
+           dialog.close();
+       });
+
+       dialog.getAddListButton().addClickListener((click) -> {
+           if (!dialog.isValid()) return;
+
+           controller.getArray().setItems(dialog.getNumbers());
+           setSort();
+           dialog.close();
+       });
     }
 
     private void setSize() {
         Global.SIZES.stream()
                 .filter(size -> size.getFirst().equals(this.group.getValue()) && size.getSecond() != null)
                 .findFirst()
-                .ifPresentOrElse((size) -> controller.getArray().setItems(randomList(size.getSecond())), this::unique);
+                .ifPresentOrElse((size) -> {
+                    controller.getArray().setItems(randomList(size.getSecond()));
+                    setSort();
+                }, this::unique);
 
+    }
+
+    private void setSort() {
         try {
             controller.setSort(
                     (Sort) Class.forName(controller.getSort().getClass().getName())
                             .getConstructor(List.class)
                             .newInstance(controller.getArray().getList()));
-        } catch (Exception e)  {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        controller.setMovements();
     }
-
 }
