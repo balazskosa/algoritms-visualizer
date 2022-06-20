@@ -1,5 +1,6 @@
 package com.application.visualizer;
 
+import com.application.UserSession;
 import com.application.visualizer.data.Global;
 import com.application.visualizer.data.algorithms.Sort;
 import com.application.visualizer.presentation.VisualizerController;
@@ -17,10 +18,10 @@ public class SizeSettingsPanel extends SettingsPanel {
         super("Size",
                 Global.SIZES.stream().map(Pair::getFirst).collect(Collectors.toList()),
                 Global.size.getFirst(), controller);
-
+        if (!UserSession.isLoggedIn()) {
+            this.group.setEnabled(false);
+        }
         group.addValueChangeListener((e) -> setSize());
-
-
 
     }
 
@@ -34,7 +35,7 @@ public class SizeSettingsPanel extends SettingsPanel {
         return set.stream().toList();
     }
 
-    private void unique() {
+    private void setCustomList() {
         CustomListDialog dialog = new CustomListDialog(controller);
         dialog.open();
 
@@ -42,6 +43,8 @@ public class SizeSettingsPanel extends SettingsPanel {
             this.group.setValue(Global.size.getFirst());
             dialog.close();
         });
+
+
 
        dialog.getAddSizeButton().addClickListener((click) -> {
            controller.getArray().setItems(randomList(dialog.getSize()));
@@ -65,7 +68,7 @@ public class SizeSettingsPanel extends SettingsPanel {
                 .ifPresentOrElse((size) -> {
                     controller.getArray().setItems(randomList(size.getSecond()));
                     setSort();
-                }, this::unique);
+                }, this::setCustomList);
 
     }
 

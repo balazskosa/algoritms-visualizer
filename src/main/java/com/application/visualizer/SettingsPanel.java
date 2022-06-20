@@ -25,5 +25,8 @@ public abstract class SettingsPanel extends Div {
         this.add(this.group);
     }
 
+    public String getValue() {
+        return this.group.getValue();
+    }
 
 }

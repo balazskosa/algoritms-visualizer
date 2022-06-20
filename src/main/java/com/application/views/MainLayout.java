@@ -1,32 +1,26 @@
 package com.application.views;
 
-import com.application.data.entity.User;
-import com.application.security.AuthenticatedUser;
-import com.application.views.about.AboutView;
-import com.application.views.about2.About2View;
+import com.application.User;
+import com.application.UserSession;
+import com.application.views.complexity.ComplexityView;
 import com.application.views.learning.LearningView;
 import com.application.views.visualizer.VisualizerView;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.dependency.NpmPackage;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.html.ListItem;
-import com.vaadin.flow.component.html.Nav;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.html.UnorderedList;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.auth.AccessAnnotationChecker;
-import java.util.Optional;
+import com.vaadin.flow.server.VaadinServletRequest;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 /**
  * The main view is a top-level placeholder for other views.
  */
 public class MainLayout extends AppLayout {
+    private static final String LOGOUT_SUCCESS_URL = "/";
 
     /**
      * A simple navigation item component, based on ListItem element.
@@ -71,13 +65,10 @@ public class MainLayout extends AppLayout {
 
     }
 
-    private AuthenticatedUser authenticatedUser;
-    private AccessAnnotationChecker accessChecker;
+//    private final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    private final OAuth2AuthenticatedPrincipal principal = (OAuth2AuthenticatedPrincipal) authentication.getPrincipal();
 
-    public MainLayout(AuthenticatedUser authenticatedUser, AccessAnnotationChecker accessChecker) {
-        this.authenticatedUser = authenticatedUser;
-        this.accessChecker = accessChecker;
-
+    public MainLayout(UserSession userSession) {
         addToNavbar(createHeaderContent());
     }
 
@@ -92,20 +83,25 @@ public class MainLayout extends AppLayout {
         appName.addClassNames("my-0", "me-auto", "text-l");
         layout.add(appName);
 
-        Optional<User> maybeUser = authenticatedUser.get();
-        if (maybeUser.isPresent()) {
-            User user = maybeUser.get();
 
-            Avatar avatar = new Avatar(user.getName(), user.getProfilePictureUrl());
+
+        if (UserSession.isLoggedIn()) {
+            User user = UserSession.getUser();
+
+            Avatar avatar = new Avatar(user.getFirstName());
             avatar.addClassNames("me-xs");
 
             ContextMenu userMenu = new ContextMenu(avatar);
             userMenu.setOpenOnClick(true);
             userMenu.addItem("Logout", e -> {
-                authenticatedUser.logout();
+                SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+                logoutHandler.logout(
+                        VaadinServletRequest.getCurrent().getHttpServletRequest(), null,
+                        null);
+                UI.getCurrent().getPage().setLocation(LOGOUT_SUCCESS_URL);
             });
 
-            Span name = new Span(user.getName());
+            Span name = new Span(user.getFirstName());
             name.addClassNames("font-medium", "text-s", "text-secondary");
 
             layout.add(avatar, name);
@@ -122,11 +118,10 @@ public class MainLayout extends AppLayout {
         list.addClassNames("flex", "list-none", "m-0", "p-0");
         nav.add(list);
 
-        for (MenuItemInfo menuItem : createMenuItems()) {
-            if (accessChecker.hasAccess(menuItem.getView())) {
-                list.add(menuItem);
-            }
 
+
+        for (MenuItemInfo menuItem : createMenuItems()) {
+                list.add(menuItem);
         }
 
         header.add(layout, nav);
@@ -139,9 +134,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Learning", "lab la-leanpub", LearningView.class), //
 
-                new MenuItemInfo("About2", "lab la-readme", About2View.class), //
-
-                new MenuItemInfo("About", "la la-file", AboutView.class), //
+                new MenuItemInfo("Complexity", "la la-file", ComplexityView.class), //
 
         };
     }

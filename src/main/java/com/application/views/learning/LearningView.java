@@ -7,11 +7,12 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import javax.annotation.security.RolesAllowed;
+
+import javax.annotation.security.PermitAll;
 
 @PageTitle("Learning")
 @Route(value = "Learning", layout = MainLayout.class)
-@RolesAllowed("ADMIN")
+@PermitAll
 public class LearningView extends VerticalLayout {
 
     public LearningView() {
