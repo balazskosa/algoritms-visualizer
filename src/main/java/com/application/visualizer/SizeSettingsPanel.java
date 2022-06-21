@@ -4,6 +4,9 @@ import com.application.UserSession;
 import com.application.visualizer.data.Global;
 import com.application.visualizer.data.algorithms.Sort;
 import com.application.visualizer.presentation.VisualizerController;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.internal.Pair;
 
 import java.util.LinkedHashSet;
@@ -18,10 +21,12 @@ public class SizeSettingsPanel extends SettingsPanel {
         super("Size",
                 Global.SIZES.stream().map(Pair::getFirst).collect(Collectors.toList()),
                 Global.size.getFirst(), controller);
-        if (!UserSession.isLoggedIn()) {
-            this.group.setEnabled(false);
-        }
+
+        this.group.setReadOnly(!UserSession.isLoggedIn());
         group.addValueChangeListener((e) -> setSize());
+
+        this.group.add(new Button(new Icon(VaadinIcon.REFRESH),
+                (click) -> setSize()));
 
     }
 

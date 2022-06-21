@@ -25,6 +25,10 @@ public class CustomListDialog extends Dialog {
 
     public CustomListDialog(VisualizerController controller) {
         this.setHeaderTitle("Custom List");
+        this.setCloseOnEsc(false);
+        this.setCloseOnOutsideClick(false);
+
+        numbers = controller.getArray().getList();
         inputSize = integerField();
         numbersTextArea = numbersTextField();
 
@@ -57,16 +61,23 @@ public class CustomListDialog extends Dialog {
     private TextArea numbersTextField() {
         TextArea textArea = new TextArea();
         textArea.setClearButtonVisible(true);
-        textArea.setValue("2 8 12 4 20 7 43 9 5 23 1 6");
+
+        StringBuilder sb = new StringBuilder();
+        numbers.forEach(n -> sb.append(n).append(" "));
+        String textAreaValue = sb.substring(0, sb.length()-1);
+        textArea.setValue(textAreaValue);
+
         textArea.setHelperText("Example: 2 8 12 4 20 7");
         textArea.addValueChangeListener(e -> textArea.setInvalid(checkNumbers(textArea)));
+
         return textArea;
     }
 
     private boolean checkNumbers(TextArea textArea) {
         List<Integer> numbers;
         try {
-            String[] values = textArea.getValue().split(" ");
+
+            String[] values = textArea.getValue().replaceAll("\\s+", " ").split(" ");
             numbers = Arrays.stream(values).map(Integer::valueOf).toList();
 
 

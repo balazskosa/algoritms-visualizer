@@ -18,12 +18,12 @@ public class Global {
             "Tournament Sort", "Insertion Sort", "Bubble Sort", "Mergesort", "Quicksort", "Heapsort");
     public static final String algorithm = ALGORITHMS.get(0);
     public static final List<Pair<String, Integer>> SIZES = List.of(
-            new Pair<>("Small", 7),
+            new Pair<>("Small", 8),
             new Pair<>("Medium",12),
             new Pair<>("Large", 16),
         new Pair<>("Custom", null));
 
-    public static final Pair<String, Integer> size = SIZES.get(1);
+    public static final Pair<String, Integer> size = SIZES.get(0);
 
     private Global() {}
 }
