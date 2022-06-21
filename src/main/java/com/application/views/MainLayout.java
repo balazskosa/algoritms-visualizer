@@ -84,7 +84,6 @@ public class MainLayout extends AppLayout {
         layout.add(appName);
 
 
-
         if (UserSession.isLoggedIn()) {
             User user = UserSession.getUser();
 
@@ -101,10 +100,7 @@ public class MainLayout extends AppLayout {
                 UI.getCurrent().getPage().setLocation(LOGOUT_SUCCESS_URL);
             });
 
-            Span name = new Span(user.getFirstName());
-            name.addClassNames("font-medium", "text-s", "text-secondary");
-
-            layout.add(avatar, name);
+            layout.add(avatar);
         } else {
             Anchor loginLink = new Anchor("login", "Sign in");
             layout.add(loginLink);
@@ -119,9 +115,8 @@ public class MainLayout extends AppLayout {
         nav.add(list);
 
 
-
         for (MenuItemInfo menuItem : createMenuItems()) {
-                list.add(menuItem);
+            list.add(menuItem);
         }
 
         header.add(layout, nav);
