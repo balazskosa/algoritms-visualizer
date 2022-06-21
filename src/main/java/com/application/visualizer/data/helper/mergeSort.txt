@@ -1,0 +1,167 @@
+<div>
+  <h1>What is Merge Sort?</h1>
+
+  <ul>
+    <li>Merge Sort is one of the most popular sorting algorithms that is based on the principle of Divide and Conquer Algorithm.
+    <li>Here, a problem is divided into multiple sub-problems. Each sub-problem is solved individually. Finally, sub-problems are combined to form the final solution.
+  </ul>
+
+  <h1>Divide and Conquer Strategy</h1>
+  <ul>
+    <li>Using the Divide and Conquer technique, we divide a problem into subproblems. When the solution to each subproblem is ready, we 'combine' the results from the subproblems to solve the main problem.
+    <li>Suppose we had to sort an array A. A subproblem would be to sort a sub-section of this array starting at index p and ending at index r, denoted as A[p..r].
+    <li>
+      <h2>Divide</h2>
+      <span>If q is the half-way point between p and r, then we can split the subarray A[p..r] into two arrays A[p..q] and A[q+1, r].<span>
+    <li>
+      <h2>Conquer</h2>
+      <span>In the conquer step, we try to sort both the subarrays A[p..q] and A[q+1, r]. If we haven't yet reached the base case, we again divide both these subarrays and try to sort them.</span>
+    <li>
+      <h2>Combine</h2>
+      <span>When the conquer step reaches the base step and we get two sorted subarrays A[p..q] and A[q+1, r] for array A[p..r], we combine the results by creating a sorted array A[p..r] from two sorted subarrays A[p..q] and A[q+1, r].</span>
+  </ul>
+
+  <h1>MergeSort Algorithm</h1>
+  <ul>
+    <li>The MergeSort function repeatedly divides the array into two halves until we reach a stage where we try to perform MergeSort on a subarray of size 1 i.e. p == r.
+    <li>After that, the merge function comes into play and combines the sorted arrays into larger arrays until the whole array is merged.
+  </ul>
+
+  <pre>
+<code>
+MergeSort(A, p, r):
+    if p > r
+        return
+    q = (p+r)/2
+    mergeSort(A, p, q)
+    mergeSort(A, q+1, r)
+    merge(A, p, q, r)
+</code>
+</pre>
+
+  <h3>The merge Step of Merge Sort</h3>
+
+  <ul>
+    <li>Every recursive algorithm is dependent on a base case and the ability to combine the results from base cases. Merge sort is no different. The most important part of the merge sort algorithm is, you guessed it, merge step.
+    <li>The merge step is the solution to the simple problem of merging two sorted lists(arrays) to build one large sorted list(array).
+  </ul>
+
+  <pre>
+<code>
+Have we reached the end of any of the arrays?
+    No:
+        Compare current elements of both arrays
+        Copy smaller element into sorted array
+        Move pointer of element containing smaller element
+    Yes:
+        Copy all remaining elements of non-empty array
+</code>
+</pre>
+
+  <ul>
+    <li>To sort an entire array, we need to call MergeSort(A, 0, length(A)-1).
+    <li>As shown in the image below, the merge sort algorithm recursively divides the array into halves until we reach the base case of array with 1 element. After that, the merge function picks up the sorted sub-arrays and merges them to gradually sort the entire array.
+  </ul>
+
+  <h1>Merge Sort Code in Java</h1>
+  <pre>
+<code>
+// Merge sort in Java
+
+class MergeSort {
+
+  // Merge two subarrays L and M into arr
+  void merge(int arr[], int p, int q, int r) {
+
+    // Create L <- A[p..q] and M <- A[q+1..r]
+    int n1 = q - p + 1;
+    int n2 = r - q;
+
+    int L[] = new int[n1];
+    int M[] = new int[n2];
+
+    for (int i = 0; i < n1; i++)
+      L[i] = arr[p + i];
+    for (int j = 0; j < n2; j++)
+      M[j] = arr[q + 1 + j];
+
+    // Maintain current index of sub-arrays and main array
+    int i, j, k;
+    i = 0;
+    j = 0;
+    k = p;
+
+    // Until we reach either end of either L or M, pick larger among
+    // elements L and M and place them in the correct position at A[p..r]
+    while (i < n1 && j < n2) {
+      if (L[i] <= M[j]) {
+        arr[k] = L[i];
+        i++;
+      } else {
+        arr[k] = M[j];
+        j++;
+      }
+      k++;
+    }
+
+    // When we run out of elements in either L or M,
+    // pick up the remaining elements and put in A[p..r]
+    while (i < n1) {
+      arr[k] = L[i];
+      i++;
+      k++;
+    }
+
+    while (j < n2) {
+      arr[k] = M[j];
+      j++;
+      k++;
+    }
+  }
+
+  // Divide the array into two subarrays, sort them and merge them
+  void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+
+      // m is the point where the array is divided into two subarrays
+      int m = (l + r) / 2;
+
+      mergeSort(arr, l, m);
+      mergeSort(arr, m + 1, r);
+
+      // Merge the sorted subarrays
+      merge(arr, l, m, r);
+    }
+  }
+
+  // Print the array
+  static void printArray(int arr[]) {
+    int n = arr.length;
+    for (int i = 0; i < n; ++i)
+      System.out.print(arr[i] + " ");
+    System.out.println();
+  }
+
+  // Driver program
+  public static void main(String args[]) {
+    int arr[] = { 6, 5, 12, 10, 9, 1 };
+
+    MergeSort ob = new MergeSort();
+    ob.mergeSort(arr, 0, arr.length - 1);
+
+    System.out.println("Sorted array:");
+    printArray(arr);
+  }
+}
+</code>
+</pre>
+
+  <h1>Merge Sort Complexity</h1>
+
+  <ul>
+    <li>Best Case Complexity: O(n*log n)
+    <li>Worst Case Complexity: O(n*log n)
+    <li>Average Case Complexity: O(n*log n)
+    <li>Space Complexity O(n)
+  </ul>
+</div>

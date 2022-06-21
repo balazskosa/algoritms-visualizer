@@ -1,0 +1,132 @@
+<div>
+  <h1>What is Quicksort?</h1>
+  <span>Quicksort is a sorting algorithm based on the divide and conquer approach where</span>
+  <ul>
+    <li>An array is divided into subarrays by selecting a pivot element (element selected from the array).
+      While dividing the array, the pivot element should be positioned in such a way that elements less than pivot are kept on the left side and elements greater than pivot are on the right side of the pivot.
+    <li>The left and right subarrays are also divided using the same approach. This process continues until each subarray contains a single element.
+    <li>At this point, elements are already sorted. Finally, elements are combined to form a sorted array.
+  </ul>
+
+  <h1>Working of Quicksort Algorithm</h1>
+  <ol>
+    <li>
+      <span>Select the Pivot Element</span>
+      There are different variations of quicksort where the pivot element is selected from different positions. Here, we will be selecting the rightmost element of the array as the pivot element.
+    <li>
+      <span>Rearrange the Array</span>
+      Now the elements of the array are rearranged so that elements that are smaller than the pivot are put on the left and the elements greater than the pivot are put on the right.
+      Here's how we rearrange the array:
+      <ol>
+        <li>A pointer is fixed at the pivot element. The pivot element is compared with the elements beginning from the first index.
+        <li>If the element is greater than the pivot element, a second pointer is set for that element.
+        <li>Now, pivot is compared with other elements. If an element smaller than the pivot element is reached, the smaller element is swapped with the greater element found earlier.
+        <li>Again, the process is repeated to set the next greater element as the second pointer. And, swap it with another smaller element.
+        <li>The process goes on until the second last element is reached.
+        <li>Finally, the pivot element is swapped with the second pointer.
+      </ol>
+
+    <li>
+      <span> Divide Subarrays</span>
+      Pivot elements are again chosen for the left and the right sub-parts separately. And, step 2 is repeated.
+      The subarrays are divided until each subarray is formed of a single element. At this point, the array is already sorted.
+  </ol>
+
+  <h1>Quick Sort Algorithm</h1>
+  <pre>
+<code>
+quickSort(array, leftmostIndex, rightmostIndex)
+  if (leftmostIndex < rightmostIndex)
+    pivotIndex <- partition(array,leftmostIndex, rightmostIndex)
+    quickSort(array, leftmostIndex, pivotIndex - 1)
+    quickSort(array, pivotIndex, rightmostIndex)
+
+partition(array, leftmostIndex, rightmostIndex)
+  set rightmostIndex as pivotIndex
+  storeIndex <- leftmostIndex - 1
+  for i <- leftmostIndex + 1 to rightmostIndex
+  if element[i] < pivotElement
+    swap element[i] and element[storeIndex]
+    storeIndex++
+  swap pivotElement and element[storeIndex+1]
+return storeIndex + 1
+</code>
+</pre>
+
+  <h1>Quicksort Code in Java</h1>
+  <pre>
+<code>
+# Quick sort in Python
+
+# function to find the partition position
+def partition(array, low, high):
+
+  # choose the rightmost element as pivot
+  pivot = array[high]
+
+  # pointer for greater element
+  i = low - 1
+
+  # traverse through all elements
+  # compare each element with pivot
+  for j in range(low, high):
+    if array[j] <= pivot:
+      # if element smaller than pivot is found
+      # swap it with the greater element pointed by i
+      i = i + 1
+
+      # swapping element at i with element at j
+      (array[i], array[j]) = (array[j], array[i])
+
+  # swap the pivot element with the greater element specified by i
+  (array[i + 1], array[high]) = (array[high], array[i + 1])
+
+  # return the position from where partition is done
+  return i + 1
+
+# function to perform quicksort
+def quickSort(array, low, high):
+  if low < high:
+
+    # find pivot element such that
+    # element smaller than pivot are on the left
+    # element greater than pivot are on the right
+    pi = partition(array, low, high)
+
+    # recursive call on the left of pivot
+    quickSort(array, low, pi - 1)
+
+    # recursive call on the right of pivot
+    quickSort(array, pi + 1, high)
+
+
+data = [8, 7, 2, 1, 0, 9, 6]
+print("Unsorted Array")
+print(data)
+
+size = len(data)
+
+quickSort(data, 0, size - 1)
+
+print('Sorted Array in Ascending Order:')
+print(data)
+</code>
+</pre>
+
+  <h1>Quicksort Complexity</h1>
+  <ul>
+    <li>Best O(n*log n)
+    <li>Worst O(n2)
+    <li>Average O(n*log n)
+    <li>Space Complexity O(log n)
+    <li>Stability No
+  </ul>
+
+  <h1>Quicksort Applications</h1>
+  <span>Quicksort algorithm is used when</span>
+  <ul>
+    <li>the programming language is good for recursion
+    <li>time complexity matters
+    <li>space complexity matters
+  </ul>
+</div>

@@ -1,0 +1,50 @@
+<div>
+  <h1>What is Tournament Sort?</h1>
+  <ul>
+    <li>
+      Tournament sort is a sorting algorithm.
+      It improves upon the naive selection sort by using a priority queue to find the next element in the sort.
+    </li>
+    <li>
+      Tournament sort is a variation of heapsort.
+    </li>
+    <li>
+      Complete binary tree with n external nodes and n - 1 internal nodes.
+    </li>
+    <li>
+      External nodes represent tournament
+      players.
+    </li>
+    <li>
+      Each internal node represents a match
+      played between its two children;
+      the winner of the match is stored at
+      the internal node.
+    </li>
+    <li>
+      Root has overall winner.
+    </li>
+  </ul>
+
+  <h1>Selection sort Time Complexity</h1>
+  <ul>
+    <li>
+      O(1) time to play match at each match node.
+    </li>
+    <li>
+      O(n) time to initialize n player winner tree.
+    </li>
+    <li>
+      Remove winner and replay. O(log n) time
+    </li>
+    <li>
+      Remove winner and replay n times. O(n log n) time
+    </li>
+    <li>
+      Worst-case performance O(n log n)
+    </li>
+    <li>
+      Average performance O(n log n)
+    </li>
+  </ul>
+</div>

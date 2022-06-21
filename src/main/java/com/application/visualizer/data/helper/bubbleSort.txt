@@ -1,0 +1,90 @@
+<div>
+  <h1>What is Bubble Sort</h1>
+  <ul>
+    <li>Bubble sort is one of the easiest and brute force sorting algorithm. It is used to sort elements in either ascending or descending order. Every element is compared with every other element in bubble sort.
+    <li>It basically does swapping of elements if they are not in the right order depending on their value and the intended order. A nested loop will be used to implement this algorithm.
+  </ul>
+
+
+  <h1>Working of Bubble Sort</h1>
+  <span>
+    Suppose we are trying to sort the elements in ascending order.
+  </span>
+  <ul>
+    <li> First Iteration (Compare and Swap)
+    <li> Starting from the first index, compare the first and the second elements.
+    <li> If the first element is greater than the second element, they are swapped.
+    <li> Now, compare the second and the third elements. Swap them if they are not in order.
+    <li> The above process goes on until the last element.
+    <li> The same process goes on for the remaining iterations.
+    <li> After each iteration, the largest element among the unsorted elements is placed at the end.
+    <li> In each iteration, the comparison takes place up to the last unsorted element.
+    <li> The array is sorted when all the unsorted elements are placed at their correct positions.
+  </ul>
+
+  <h1>Bubble Sort Algorithm</h1>
+  <pre>
+<code>
+bubbleSort(array)
+  for i <- 1 to indexOfLastUnsortedElement-1
+    if leftElement > rightElement
+      swap leftElement and rightElement
+end bubbleSort
+</code>
+</pre>
+
+  <h1>Bubble Sort Code in Java</h1>
+
+  <pre>
+<code>
+// Bubble sort in Java
+
+import java.util.Arrays;
+
+class Main {
+
+  // perform the bubble sort
+  static void bubbleSort(int array[]) {
+    int size = array.length;
+
+    // loop to access each array element
+    for (int i = 0; i < size - 1; i++)
+
+      // loop to compare array elements
+      for (int j = 0; j < size - i - 1; j++)
+
+        // compare two adjacent elements
+        // change > to < to sort in descending order
+        if (array[j] > array[j + 1]) {
+
+          // swapping occurs if elements
+          // are not in the intended order
+          int temp = array[j];
+          array[j] = array[j + 1];
+          array[j + 1] = temp;
+        }
+  }
+
+  public static void main(String args[]) {
+
+    int[] data = { -2, 45, 0, 11, -9 };
+
+    // call method using class name
+    Main.bubbleSort(data);
+
+    System.out.println("Sorted Array in Ascending Order:");
+    System.out.println(Arrays.toString(data));
+  }
+}
+</code>
+</pre>
+
+  <h1>Bubble Sort Complexity</h1>
+  <ul>
+    <li>Each and every element is compared with the other elements for array which takes n time
+    <li>And the above steps continues for n iterations
+    <li>Best Time Complexity: O(n)
+    <li>Average Time Complexity: O(n^2)
+    <li>Worst Time Complexity: O(n^2)
+  </ul>
+</div>
