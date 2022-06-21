@@ -29,5 +29,4 @@ public class SecurityConfiguration extends VaadinWebSecurityConfigurerAdapter {
         super.configure(http);
         http.oauth2Login().loginPage(LOGIN_URL).permitAll();
     }
-
 }
