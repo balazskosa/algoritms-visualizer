@@ -7,12 +7,15 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class SortComplexity {
+
+    protected String algorithmName;
     protected int swapCounter = 0;
     protected int comparisonCounter = 0;
     protected final List<Integer> numbers;
 
-    public SortComplexity(int size) {
+    public SortComplexity(int size, String algorithmName) {
         this.numbers = generateList(size);
+        this.algorithmName = algorithmName;
         sort();
     }
 
@@ -25,6 +28,8 @@ public abstract class SortComplexity {
     public int getComparisonCounter() {
         return comparisonCounter;
     }
+
+    public String getAlgorithmName() { return algorithmName;}
 
     private List<Integer> generateList(int size) {
         int min = 1;

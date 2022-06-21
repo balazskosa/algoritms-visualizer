@@ -2,7 +2,7 @@ package com.application.complexity.data;
 
 public class QuickSortComplexity extends SortComplexity{
     public QuickSortComplexity(int size) {
-        super(size);
+        super(size, "Quicksort");
     }
 
     @Override

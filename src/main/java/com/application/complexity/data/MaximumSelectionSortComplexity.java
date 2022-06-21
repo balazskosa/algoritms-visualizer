@@ -2,7 +2,7 @@ package com.application.complexity.data;
 
 public class MaximumSelectionSortComplexity extends SortComplexity {
     public MaximumSelectionSortComplexity(int size) {
-        super(size);
+        super(size, "Maximum Selection Sort");
     }
 
     @Override

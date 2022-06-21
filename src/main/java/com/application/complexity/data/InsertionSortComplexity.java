@@ -2,7 +2,7 @@ package com.application.complexity.data;
 
 public class InsertionSortComplexity extends SortComplexity{
     public InsertionSortComplexity(int size) {
-        super(size);
+        super(size, "Insertion Sort");
     }
 
     @Override
