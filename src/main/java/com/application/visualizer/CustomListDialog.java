@@ -2,6 +2,7 @@ package com.application.visualizer;
 
 import com.application.visualizer.presentation.VisualizerController;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -20,6 +21,7 @@ public class CustomListDialog extends Dialog {
     private final Button cancelButton;
     private final Button addSizeButton;
     private final Button addListButton;
+
     private final IntegerField inputSize;
     private final TextArea numbersTextArea;
 
@@ -36,10 +38,14 @@ public class CustomListDialog extends Dialog {
         addSizeButton = new Button(new Icon(VaadinIcon.CHECK_CIRCLE));
         addListButton = new Button(new Icon(VaadinIcon.CHECK_CIRCLE));
 
+        addSizeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        addListButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
         HorizontalLayout sizeLayout = new HorizontalLayout(inputSize, addSizeButton);
         HorizontalLayout numbersLayout = new HorizontalLayout(numbersTextArea, addListButton);
         sizeLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.BASELINE);
         numbersLayout.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.BASELINE);
+
 
         VerticalLayout dialogLayout = new VerticalLayout();
         this.add(dialogLayout);
@@ -47,13 +53,16 @@ public class CustomListDialog extends Dialog {
         this.getFooter().add(cancelButton);
     }
 
+    public IntegerField getInputSize() {
+        return inputSize;
+    }
     private IntegerField integerField() {
         IntegerField integerField = new IntegerField();
         integerField.setLabel("Size");
         integerField.setHelperText("Min 4, Max 16");
         integerField.setMin(4);
         integerField.setMax(16);
-        integerField.setValue(8);
+        integerField.setValue(numbers.size());
         integerField.setHasControls(true);
         return integerField;
     }
@@ -116,7 +125,11 @@ public class CustomListDialog extends Dialog {
         return inputSize.getValue();
     }
 
-    public boolean isValid() {
+    public boolean isSizeValid() {
+        return inputSize.getValue() >= inputSize.getMin() && inputSize.getValue() <= inputSize.getMax();
+     }
+
+    public boolean isNumbersValid() {
         return !numbersTextArea.isInvalid();
     }
 }
