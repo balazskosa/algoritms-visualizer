@@ -11,8 +11,7 @@ public class QuickSortComplexity extends SortComplexity{
     }
 
     public void quickSort(int begin, int end) {
-        comparisonCounter++;
-        if (begin < end) {
+        if (less(begin, end)) {
             int partitionIndex = partition(begin, end);
 
             quickSort(begin, partitionIndex - 1);
@@ -21,25 +20,17 @@ public class QuickSortComplexity extends SortComplexity{
     }
 
     private int partition(int begin, int end) {
-        int pivot = this.numbers.get(end);
+        int pivot = numbers.get(end);
 
         int i = (begin - 1);
 
         for (int j = begin; j < end; j++) {
-            comparisonCounter++;
-            if (this.numbers.get(j) < pivot) {
+            if (less(numbers.get(j), pivot)) {
                 i++;
-                swapCounter++;
-                int swapTemp = this.numbers.get(i);
-                this.numbers.set(i, this.numbers.get(j));
-                this.numbers.set(j, swapTemp);
+                swap(i, j);
             }
         }
-
-        swapCounter++;
-        int swapTemp = this.numbers.get(i + 1);
-        this.numbers.set(i + 1, this.numbers.get(end));
-        this.numbers.set(end, swapTemp);
+        swap(i+1, end);
 
         return i + 1;
     }

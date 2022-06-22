@@ -5,6 +5,7 @@ import com.application.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -25,6 +26,9 @@ public class ComplexityView extends VerticalLayout {
     public ComplexityView() {
         Grid<SortComplexity> grid = new Grid<>(SortComplexity.class, true);
         grid.setMultiSort(true);
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+        grid.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
+
 
         Button setData = new Button("Calculate");
         setData.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -36,7 +40,7 @@ public class ComplexityView extends VerticalLayout {
         setData.addClickListener(e -> {
             grid.setItems(generateData(integerField.getValue()));
             Notification notification = Notification.show("Calculation finished", 5000, Notification.Position.BOTTOM_END);
-            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
         });
 
         HorizontalLayout layout = new HorizontalLayout(integerField, setData);
@@ -49,9 +53,12 @@ public class ComplexityView extends VerticalLayout {
         List<SortComplexity> sortComplexities = new ArrayList<>();
 
         sortComplexities.add(new MaximumSelectionSortComplexity(size));
+        sortComplexities.add(new TournamentSortComplexity(size));
         sortComplexities.add(new InsertionSortComplexity(size));
         sortComplexities.add(new BubbleSortComplexity(size));
+        sortComplexities.add(new MergesortComplexity(size));
         sortComplexities.add(new QuickSortComplexity(size));
+        sortComplexities.add(new HeapsortComplexity(size));
 
         return sortComplexities;
     }

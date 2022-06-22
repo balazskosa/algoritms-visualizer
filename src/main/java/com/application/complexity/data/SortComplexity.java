@@ -29,7 +29,9 @@ public abstract class SortComplexity {
         return comparisonCounter;
     }
 
-    public String getAlgorithmName() { return algorithmName;}
+    public String getAlgorithmName() {
+        return algorithmName;
+    }
 
     private List<Integer> generateList(int size) {
         int min = 1;
@@ -39,5 +41,36 @@ public abstract class SortComplexity {
             numbers.add(ThreadLocalRandom.current().nextInt(min, max + 1));
         }
         return new ArrayList<>(numbers);
+    }
+
+    protected boolean less(int first, int second) {
+        comparisonCounter++;
+        return first < second;
+    }
+
+    protected boolean greater(int first, int second) {
+        comparisonCounter++;
+        return first > second;
+    }
+
+    protected void andOperator() {
+        comparisonCounter++;
+    }
+
+    protected boolean notEqual(int first, int second) {
+        comparisonCounter++;
+        return !(first == second);
+    }
+
+    protected void set(int index, int value) {
+        swapCounter++;
+        numbers.set(index, value);
+    }
+
+    protected void swap(int first, int second) {
+        swapCounter++;
+        int tmp = numbers.get(first);
+        numbers.set(first, numbers.get(second));
+        numbers.set(second, tmp);
     }
 }

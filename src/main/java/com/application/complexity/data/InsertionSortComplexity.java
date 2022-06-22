@@ -7,26 +7,20 @@ public class InsertionSortComplexity extends SortComplexity{
 
     @Override
     public void sort() {
-        for (int i = 0; i < this.numbers.size(); i++) {
-
-            int current = this.numbers.get(i);
+        int n = numbers.size();
+        for (int i = 1; i < n; ++i) {
+            int key = numbers.get(i);
             int j = i - 1;
+            /* Move elements of arr[0..i-1], that are
+               greater than key, to one position ahead
+               of their current position */
+            while (!less(j, 0) && greater(numbers.get(j), key)) {
+                andOperator();
 
-            while (j >= 0) {
-                comparisonCounter = comparisonCounter + 2;
-                if(this.numbers.get(j) > current) {
-                    swapCounter++;
-                    this.numbers.set(j + 1, this.numbers.get(j));
-                    j--;
-                } else {
-                    comparisonCounter--;
-                    break;
-                }
+                set(j+1, numbers.get(j));
+                j = j - 1;
             }
-            comparisonCounter++;
-
-            swapCounter++;
-            this.numbers.set(j + 1, current);
+            set(j+1, key);
         }
     }
 }
