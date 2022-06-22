@@ -45,7 +45,7 @@ public class ComplexityView extends VerticalLayout {
         HorizontalLayout layout = new HorizontalLayout(calculate, helpIcon);
         layout.setDefaultVerticalComponentAlignment(Alignment.CENTER);
 
-        HorizontalLayout controlLayout = new HorizontalLayout(size, calculate, helpIcon);
+        HorizontalLayout controlLayout = new HorizontalLayout(size, layout);
         controlLayout.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
         add(controlLayout, grid);
