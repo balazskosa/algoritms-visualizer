@@ -23,9 +23,15 @@
 }
 
 .condition {
+    background: linear-gradient(to left, rgba(1,1,1,0.4) 0%, transparent 10%, transparent 90%, rgba(1,1,1,0.4) 100%);
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
     box-shadow: 3px 3px 3px rgba(1,1,1,0.3) inset;
+
 }
 
+.condition_container {
+    box-shadow: 3px 3px 3px rgba(1,1,1,0.3) inset;
+}
 
 .branches {
     display: flex;

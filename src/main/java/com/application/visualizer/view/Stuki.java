@@ -28,10 +28,13 @@ public class Stuki extends Div {
     }
 
     public Div condition(String name) {
+        Div background = new Div();
+        background.addClassName("condition_container");
         Div condition = new Div();
         condition.addClassName("condition");
         condition.add(name);
-        return condition;
+        background.add(condition);
+        return background;
     }
 
     public Div loop(String name) {
