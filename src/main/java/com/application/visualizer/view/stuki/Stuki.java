@@ -1,4 +1,4 @@
-package com.application.visualizer.view;
+package com.application.visualizer.view.stuki;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
@@ -19,7 +19,7 @@ public class Stuki extends Div {
         this.add(body);
 
     }
-    public Div sequence(String name) {
+    protected Div sequence(String name) {
 
         Div sequence = new Div();
         sequence.addClassName("sequence");
@@ -49,11 +49,48 @@ public class Stuki extends Div {
         branches.addClassName("branches");
         Div firstBranch = sequence(firstCondition);
         Div secondBranch = sequence(secondCondition);
-
         branches.add(firstBranch, secondBranch);
+
+        firstBranch.setWidthFull();
+        secondBranch.setWidthFull();
 
         return branches;
     }
+
+    public Div branches(String firstCondition, Div secondBranch) {
+        Div branches = new Div();
+        branches.addClassName("branches");
+        Div firstBranch = sequence(firstCondition);
+        branches.add(firstBranch, secondBranch);
+
+        secondBranch.setWidthFull();
+
+        return branches;
+    }
+
+    public Div branches(Div firstBranch, String secondCondition) {
+        Div branches = new Div();
+        branches.addClassName("branches");
+        Div secondBranch = sequence(secondCondition);
+        branches.add(firstBranch, secondBranch);
+
+
+        firstBranch.setWidthFull();
+        return branches;
+    }
+
+    public Div branches(Div firstBranch, Div secondBranch) {
+        Div branches = new Div();
+        branches.addClassName("branches");
+        branches.add(firstBranch, secondBranch);
+
+
+        firstBranch.setWidthFull();
+        secondBranch.setWidthFull();
+        return branches;
+    }
+
+
 
     public Div getBody() {
         return body;

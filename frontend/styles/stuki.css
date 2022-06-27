@@ -1,17 +1,23 @@
 .stuki {
-    width: 25vw;
+    min-width: 15vw;
+    width: auto;
     margin: auto;
     box-shadow: 5px 10px 5px rgba(1,1,1,0.5);
     text-align: center;
-    direction: rtl;
     word-wrap: break-word;
+    direction: rtl;
+
 }
 .body {
     box-shadow: 5px 10px 5px rgba(1,1,1,0.5);
 }
 
 .sequence {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
     box-shadow: 3px 3px 3px rgba(1,1,1,0.3) inset;
+    direction: ltr;
 }
 
 .loop {
@@ -35,10 +41,12 @@
 
 .branches {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
 }
-.branches > div {
-    width: 50%;
-}
+
+
+
+
+
 
 
