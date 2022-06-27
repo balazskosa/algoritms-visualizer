@@ -19,20 +19,20 @@ public class HeapsortStuki extends VerticalLayout {
         Div loop = stuki.loop("i > 1");
         stuki.getBody().add(loop);
 
-        loop.add(stuki.sequence("Switch(A[1];A[i])"));
+        loop.add(stuki.sequence("Switch(A[1], A[i])"));
         loop.add(stuki.sequence("A := A[1..n - 1]"));
-        loop.add(stuki.sequence("MakeHeap(A; 1)"));
+        loop.add(stuki.sequence("MakeHeap(A, 1)"));
 
         return stuki;
     }
 
     private Stuki makeHeap() {
         Stuki stuki = new Stuki("MakeHeap(A, i)");
-        stuki.getBody().add(stuki.condition("n := Size(A)"));
-        stuki.getBody().add(stuki.condition("r := 2i + 1"));
-        stuki.getBody().add(stuki.condition("l := 2i"));
+        stuki.getBody().add(stuki.sequence("n := Size(A)"));
+        stuki.getBody().add(stuki.sequence("r := 2i + 1"));
+        stuki.getBody().add(stuki.sequence("l := 2i"));
 
-        stuki.getBody().add(stuki.condition("l <=> n \tʌ A[l] > A[i]"));
+        stuki.getBody().add(stuki.condition("l <= n \tʌ A[l] > A[i]"));
         stuki.getBody().add(stuki.branches("max := l", "max := i"));
 
         stuki.getBody().add(stuki.condition("r <= n \tʌ A[r] > A[max]"));
