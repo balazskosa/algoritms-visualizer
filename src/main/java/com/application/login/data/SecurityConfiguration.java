@@ -1,4 +1,4 @@
-package com.application;
+package com.application.login.data;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurityConfigurerAdapter;
 import org.springframework.context.annotation.Configuration;

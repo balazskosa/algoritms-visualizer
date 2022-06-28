@@ -4,27 +4,28 @@ package com.application.visualizer;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 
 import java.io.*;
 import java.util.stream.Collectors;
-
+@CssImport("./styles/helper.css")
 public class Helper {
     private final Button helpButton;
     private final AlgorithmSettingsPanel algorithmPanel;
     private final ConfirmDialog dialog;
 
     public Helper(AlgorithmSettingsPanel algorithmPanel) {
-
-        this.helpButton = new Button(new Icon(VaadinIcon.QUESTION_CIRCLE_O));
-        this.helpButton.getStyle().set("position", "absolute").set("right", "30px").set("bottom", "10px");
         this.algorithmPanel = algorithmPanel;
-        this.helpButton.addClickListener((buttonClickEvent -> getAlgorithmHelper()));
-        this.dialog = new ConfirmDialog();
-        this.dialog.setWidth("50vw");
-        this.dialog.setConfirmText("OK");
+        helpButton = new Button(new Icon(VaadinIcon.QUESTION_CIRCLE_O));
+        helpButton.addClassName("helper-button");
+
+        helpButton.addClickListener((buttonClickEvent -> getAlgorithmHelper()));
+        dialog = new ConfirmDialog();
+        dialog.setSizeFull();
+        dialog.setConfirmText("OK");
 
     }
 

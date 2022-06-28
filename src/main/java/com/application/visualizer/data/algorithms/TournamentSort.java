@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class TournamentSort extends Sort {
-    public List<Integer> tournamentTree;
+    private List<Integer> tournamentTree;
     private int n;
     private int counter;
 

@@ -1,9 +1,8 @@
 package com.application.views;
 
-import com.application.User;
-import com.application.UserSession;
+import com.application.login.data.User;
+import com.application.login.data.UserSession;
 import com.application.views.complexity.ComplexityView;
-import com.application.views.learning.LearningView;
 import com.application.views.visualizer.VisualizerView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -127,7 +126,7 @@ public class MainLayout extends AppLayout {
         return new MenuItemInfo[]{ //
                 new MenuItemInfo("Visualizer", "la la-chart-bar", VisualizerView.class), //
 
-                new MenuItemInfo("Learning", "lab la-leanpub", LearningView.class), //
+                //new MenuItemInfo("Learning", "lab la-leanpub", LearningView.class), //
 
                 new MenuItemInfo("Complexity", "la la-file", ComplexityView.class), //
 

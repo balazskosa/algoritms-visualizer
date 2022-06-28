@@ -9,27 +9,21 @@ public class MaximumSelectionSortComplexity extends SortComplexity {
     protected void sort() {
         int j = numbers.size();
 
-        while (j > 1) {
-            comparisonCounter++;
-            //--------------findMax
+        while (greater(j, 1)) {
+            //findMax
             int max = 0;
             for (int i = 1; i < j; i++) {
-                comparisonCounter++;
-                if (numbers.get(max) < numbers.get(i)) {
+                if (less(numbers.get(max), numbers.get(i))) {
                     max = i;
                 }
             }
-            //--------------swap
-            comparisonCounter++;
-            if (max != j - 1) {
-                swapCounter++;
-                int swap = this.numbers.get(max);
-                this.numbers.set(max, this.numbers.get(j - 1));
-                this.numbers.set(j - 1, swap);
+
+            //swap
+            if (notEqual(max, j-1)) {
+                swap(max, j-1);
             }
             j = j - 1;
         }
         //end while
-        comparisonCounter++;
     }
 }

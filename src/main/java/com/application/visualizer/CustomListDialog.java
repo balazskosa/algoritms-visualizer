@@ -25,6 +25,9 @@ public class CustomListDialog extends Dialog {
     private final IntegerField inputSize;
     private final TextArea numbersTextArea;
 
+    private final static int MIN_SIZE = 4;
+    private final static int MAX_SIZE= 16;
+
     public CustomListDialog(VisualizerController controller) {
         this.setHeaderTitle("Custom List");
         this.setCloseOnEsc(false);
@@ -59,9 +62,9 @@ public class CustomListDialog extends Dialog {
     private IntegerField integerField() {
         IntegerField integerField = new IntegerField();
         integerField.setLabel("Size");
-        integerField.setHelperText("Min 4, Max 16");
-        integerField.setMin(4);
-        integerField.setMax(16);
+        integerField.setHelperText("Min "+ MIN_SIZE +", Max" + MAX_SIZE);
+        integerField.setMin(MIN_SIZE);
+        integerField.setMax(MAX_SIZE);
         integerField.setValue(numbers.size());
         integerField.setHasControls(true);
         return integerField;
@@ -92,7 +95,7 @@ public class CustomListDialog extends Dialog {
 
             if (new HashSet<>(numbers).size() != numbers.size())
                 throw new IllegalArgumentException("Not unique values");
-            if (numbers.size() < 4 || numbers.size() > 16)
+            if (numbers.size() < MIN_SIZE || numbers.size() > MAX_SIZE)
                 throw new Exception("Min 4 Max 16 values");
 
             this.numbers = numbers;

@@ -1,6 +1,6 @@
 package com.application.visualizer;
 
-import com.application.UserSession;
+import com.application.login.data.UserSession;
 import com.application.visualizer.data.Global;
 import com.application.visualizer.data.algorithms.Sort;
 import com.application.visualizer.presentation.VisualizerController;
@@ -27,7 +27,6 @@ public class SizeSettingsPanel extends SettingsPanel {
 
         this.group.add(new Button(new Icon(VaadinIcon.REFRESH),
                 (click) -> setSize()));
-
     }
 
     private List<Integer> randomList(int n) {
@@ -49,16 +48,16 @@ public class SizeSettingsPanel extends SettingsPanel {
             dialog.close();
         });
 
-
-
        dialog.getAddSizeButton().addClickListener((click) -> {
+           if(!dialog.isSizeValid()) return;
+
            controller.getArray().setItems(randomList(dialog.getSize()));
            setSort();
            dialog.close();
        });
 
        dialog.getAddListButton().addClickListener((click) -> {
-           if (!dialog.isValid()) return;
+           if (!dialog.isNumbersValid()) return;
 
            controller.getArray().setItems(dialog.getNumbers());
            setSort();

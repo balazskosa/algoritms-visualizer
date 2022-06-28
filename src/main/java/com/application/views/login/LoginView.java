@@ -1,6 +1,6 @@
 package com.application.views.login;
 
-import com.application.UserSession;
+import com.application.login.data.UserSession;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;

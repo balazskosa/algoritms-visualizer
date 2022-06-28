@@ -1,15 +1,16 @@
-package com.application.visualizer.view.stuki;
+package com.application.visualizer.presentation;
 
 import com.application.visualizer.AlgorithmSettingsPanel;
 import com.application.visualizer.SettingsPanel;
-import com.vaadin.flow.component.html.Div;
+import com.application.visualizer.view.stuki.*;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class StukiController {
 
     private final SettingsPanel panel;
-    private final Div view;
+    private final VerticalLayout view;
 
-    public StukiController(AlgorithmSettingsPanel panel, Div view) {
+    public StukiController(AlgorithmSettingsPanel panel, VerticalLayout view) {
         this.view = view;
         this.panel = panel;
         setStuki();

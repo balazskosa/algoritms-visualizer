@@ -10,6 +10,8 @@ import java.util.List;
 
 @CssImport("./styles/settings-panel.css")
 public abstract class SettingsPanel extends Div {
+
+
     protected final RadioButtonGroup<String> group;
     protected final VisualizerController controller;
 
@@ -27,6 +29,10 @@ public abstract class SettingsPanel extends Div {
 
     public String getValue() {
         return this.group.getValue();
+    }
+
+    public RadioButtonGroup<String> getGroup() {
+        return group;
     }
 
 }

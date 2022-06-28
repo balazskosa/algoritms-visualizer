@@ -1,11 +1,14 @@
 .current-step-panel {
-    width: 500px;
-    height: 18vh;
+    width: 35vw;
+    min-height: 18vh;
+    height: auto;
     margin: auto;
     border: 2px solid rgba(1,1,1,0.25);
     border-radius: 5px;
     box-shadow: 10px 10px 10px rgba(1,1,1,0.25);
     padding: 10px;
+    word-wrap: break-word;
+
 }
 
 .current-step-panel > div {
@@ -18,5 +21,4 @@
 .step {
  font-weight: bold;
  font-size: 1em;
-
 }

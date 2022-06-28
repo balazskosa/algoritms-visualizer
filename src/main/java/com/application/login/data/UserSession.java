@@ -1,4 +1,4 @@
-package com.application;
+package com.application.login.data;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
